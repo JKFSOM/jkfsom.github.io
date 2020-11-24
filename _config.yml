@@ -21,7 +21,7 @@
 title: Jordan Fry
 email: hello@jordanfry.com
 description: >- # this means to ignore newlines until "baseurl:"
-Just another Wordpress site...
+  Just another Wordpress site...
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "blog.jordanfry.com" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: jkfsom
