@@ -5,7 +5,6 @@ permalink: /reading/
 ---
 Here are some interesting pieces I value.
 ### Books
-Read in the following order:
 
 * The Performance Cortex, Zach Schonbrun
 * The Hobbit, J.R.R. Tolkein
@@ -13,6 +12,7 @@ Read in the following order:
 * Cradle to Cradle, Michael Braungart and William McDonough
 * How to Lie with Statistics, by Darrell Huff
 
+Best read in the following order:
 1. Men Like Gods, H.G. Wells
 2. Brave New World, Aldous Huxley
 3. 1984, George Orwell
