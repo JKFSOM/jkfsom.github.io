@@ -3,7 +3,7 @@ layout: page
 title: Reading 
 permalink: /reading/
 ---
-Here are a few interesting reads
+Here are some important/interesting pieces I value.
 ### Books
 
 ### Papers
