@@ -4,15 +4,10 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+I studied Geology at UWE, and graduated in July 2020. I was able to tie in my interest in artificial intelligence with my degree by developed several models targeted at natural processes, including predicting streamflow. Outside of university I've utilised machine learning for a variety of tasks, including to
+extract field boundaries from satellite imagery, and generate realistic handwriting using an LSTM paired with a custom robotics platform. In the near future I would like to explore natural language generation (NLG) techniques.
 
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
-
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
+I am always looking for exciting research and professional opportunities, so feel free to get in touch.
 
 
-[jekyll-organization]: https://github.com/jekyll
+
