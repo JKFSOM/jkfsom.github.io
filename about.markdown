@@ -10,5 +10,3 @@ Outside of university I've utilised machine learning for a variety of tasks, inc
 
 I am always looking for exciting research and professional opportunities, so feel free to get in touch.
 
-
-
