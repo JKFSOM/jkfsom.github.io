@@ -4,8 +4,8 @@ title: Reading
 permalink: /reading/
 ---
 Here are a few interesting reads
-## Books
+### Books
 
-## Papers
+### Papers
 
-## Blog posts
+### Blog posts
