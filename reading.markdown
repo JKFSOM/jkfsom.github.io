@@ -2,7 +2,7 @@
 layout: page
 title: Reading
 permalink: /reading/
-published: true
+published: false
 ---
 ### Books
 
@@ -11,7 +11,7 @@ published: true
 * Great Expectations, Charles Dickens
 * Cradle to Cradle, Michael Braungart and William McDonough
 * How to Lie with Statistics, by Darrell Huff
-----
+
 Best read in the following order:
 1. Men Like Gods, H.G. Wells
 2. Brave New World, Aldous Huxley
