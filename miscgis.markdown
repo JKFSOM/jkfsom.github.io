@@ -9,7 +9,7 @@ published: true
 
 #### Earthquakes ([link](https://earthquake.usgs.gov/fdsnws/event/1/))
 - USGS earthquake data API
----
+
 #### UK historic weather data ([link](https://www.ceda.ac.uk/blog/uk-weather-station-records-now-freely-available-to-all-midas-open/))
 - Provided by the Centre for Environmental Data Analysis (CEDA) land surface station data from 1853 to present is available to the public.
 ---
