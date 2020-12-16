@@ -9,15 +9,14 @@ published: true
 ---
  Resources useful for GIS applications, such as LiDAR and aerial imagery
 
-#### Earthquakes ([link](https://earthquake.usgs.gov/fdsnws/event/1/))
+#### **Earthquakes ([link](https://earthquake.usgs.gov/fdsnws/event/1/))**
 - USGS earthquake data API
-
-#### UK historic weather data ([link](https://www.ceda.ac.uk/blog/uk-weather-station-records-now-freely-available-to-all-midas-open/))
+---
+#### **UK historic weather data ([link](https://www.ceda.ac.uk/blog/uk-weather-station-records-now-freely-available-to-all-midas-open/))**
 - Provided by the Centre for Environmental Data Analysis (CEDA) land surface station data from 1853 to present is available to the public.
 ---
-#### River information ([link](https://nrfa.ceh.ac.uk/data/search))
-Flow data from stations around the UK. Precipitation and catchment data made available, also.
-
+#### **River information ([link](https://nrfa.ceh.ac.uk/data/search))**
+- Flow data from stations around the UK. Precipitation and catchment data made available, also.
 ---
 #### UK LiDAR data ([link](https://environment.data.gov.uk/DefraDataDownload/?Mode=survey))
 - Provided by DeFRA, with incomplete coverage and a range of resolutions depending on area. Updated ~once a year.
