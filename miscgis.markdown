@@ -4,9 +4,7 @@ title: Misc. GIS
 permalink: /miscgis/
 published: true
 ---
----
 ### Sources of GIS data
----
  Resources useful for GIS applications, such as LiDAR and aerial imagery
 
 #### **Earthquakes ([link](https://earthquake.usgs.gov/fdsnws/event/1/))**
