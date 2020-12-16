@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Misc. GIS
+title: 
 permalink: /miscgis/
 published: true
 ---
