@@ -7,8 +7,8 @@ published: true
 ### Sources of GIS data
  Resources useful for GIS applications, such as LiDAR and aerial imagery
 
-#### **Earthquakes ([link](https://earthquake.usgs.gov/fdsnws/event/1/))**
-- USGS earthquake data API
+#### Earthquakes ([link](https://earthquake.usgs.gov/fdsnws/event/1/))
+USGS earthquake data API
 
 ---
 #### **UK historic weather data ([link](https://www.ceda.ac.uk/blog/uk-weather-station-records-now-freely-available-to-all-midas-open/))**
