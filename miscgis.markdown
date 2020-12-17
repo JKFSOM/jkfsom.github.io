@@ -2,7 +2,7 @@
 layout: page
 title: 
 permalink: /miscgis/
-published: true
+published: false
 ---
 ### Sources of GIS data
  Resources useful for GIS applications, such as LiDAR and aerial imagery
