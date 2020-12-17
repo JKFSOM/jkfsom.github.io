@@ -23,11 +23,11 @@ Flow data from stations around the UK. Precipitation and catchment data made ava
 Provided by DeFRA, with incomplete coverage and a range of resolutions depending on area. Updated ~once a year.
 
 ---
-#### UK Freehold Property Information ([link](https://use-land-property-data.service.gov.uk/datasets/inspire/download))
-- Provided by the Land Registry UK as a .gml polygon
+#### **UK Freehold Property Information ([link](https://use-land-property-data.service.gov.uk/datasets/inspire/download))**
+Provided by the Land Registry UK as a .gml polygon
 
 ---
-#### Miscellaneous
+#### **Miscellaneous **
 Although not datasets in themselves, the following are great resources to check when looking for datasets
 
 - [Kaggle](https://www.kaggle.com/datasets)
