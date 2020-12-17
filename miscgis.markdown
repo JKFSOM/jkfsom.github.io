@@ -27,7 +27,7 @@ Provided by DeFRA, with incomplete coverage and a range of resolutions depending
 Provided by the Land Registry UK as a .gml polygon
 
 ---
-#### **Miscellaneous **
+#### **Miscellaneous**
 Although not datasets in themselves, the following are great resources to check when looking for datasets
 
 - [Kaggle](https://www.kaggle.com/datasets)
