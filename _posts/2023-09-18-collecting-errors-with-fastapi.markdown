@@ -17,3 +17,35 @@ However, the default behaviour of FastAPI (Pydantic) in a custom validator is to
 Obvious improvement can be made to the following code - the use of enums for height-type, for example. However, this is a bare-bones example of how to collect and return validation errors in one go.
 
 <script src="https://gist.github.com/JKFSOM/f694e5dcd1081eada511d456c75f312f.js"></script>
+
+### This gives something like...
+
+```json
+{
+  "detail": [
+    {
+      "type": "missing",
+      "loc": [
+        "body",
+        "height_cms"
+      ],
+      "msg": "Field required",
+      "input": null,
+      "ctx": {},
+      "url": "https://errors.pydantic.dev/2.3/v/missing"
+    },
+    {
+      "type": "missing",
+      "loc": [
+        "body",
+        "gender"
+      ],
+      "msg": "Field required",
+      "input": {
+        "height_type": "cms"
+      },
+      "url": "https://errors.pydantic.dev/2.3/v/missing"
+    }
+  ]
+}
+```
