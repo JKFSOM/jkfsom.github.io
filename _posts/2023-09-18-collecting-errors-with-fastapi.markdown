@@ -18,7 +18,7 @@ Obvious improvement can be made to the following code - the use of enums for hei
 
 <script src="https://gist.github.com/JKFSOM/f694e5dcd1081eada511d456c75f312f.js"></script>
 
-### This gives something like...
+When making a request that contains only `height_type`, the following is returned. 
 
 ```json
 {
