@@ -21,7 +21,7 @@ The following results were gathered over 100 runs.
 | C++ | 0.81958 | 20.812500 |
 | ∆ | 8.455 | ~0 |
 
-- **Duration:** The duration for processing in C++ is significantly lower, showcasing a reduction of −91.15%. This reduction in time is a massive gain in performance which is essential in high-performance applications.
+- **Duration:** The duration for processing in C++ is significantly lower, showcasing **a reduction of −91.15%**. This reduction in time is a massive gain in performance which is essential in high-performance applications.
 - **Memory:** The memory consumption is nearly identical between Python and C++, with a slight reduction in memory usage in the C++ implementation.
 
 ### Conclusion
