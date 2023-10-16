@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Rewriting Python Modules in C++, for Performance"
+title:  "Rewriting Python Modules in C++, for a Performance Boost"
 date:   2023-10-15 12:00:00 +0000
 categories: C++ python geospatial
 published: true
