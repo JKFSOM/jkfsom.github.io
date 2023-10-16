@@ -3,21 +3,21 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Rewriting blocl-bnglatlon in C++ | JFKSOM</title>
+<title>Rewriting Python Modules in C++, for Performance | JFKSOM</title>
 <meta name="generator" content="Jekyll v3.9.2" />
-<meta property="og:title" content="Rewriting blocl-bnglatlon in C++" />
+<meta property="og:title" content="Rewriting Python Modules in C++, for Performance" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="High-performance applications are often written in a lower-level language, such as C++ of Rust, rather than Python. This is particularly common in the world of AI, where organisations including Tesla develop models in Python, and then rewrite them in C++ to improve performance." />
-<meta property="og:description" content="High-performance applications are often written in a lower-level language, such as C++ of Rust, rather than Python. This is particularly common in the world of AI, where organisations including Tesla develop models in Python, and then rewrite them in C++ to improve performance." />
+<meta name="description" content="High-performance applications are often written in a lower-level language, such as C++ of Rust, rather than Python. This is common in the world of AI, where organisations including Tesla develop models in Python, and then rewrite them in C++ to improve performance. The primary allure of lower-level languages lies in their ability to provide finer control over system resources, thereby unlocking a significant boost in performance." />
+<meta property="og:description" content="High-performance applications are often written in a lower-level language, such as C++ of Rust, rather than Python. This is common in the world of AI, where organisations including Tesla develop models in Python, and then rewrite them in C++ to improve performance. The primary allure of lower-level languages lies in their ability to provide finer control over system resources, thereby unlocking a significant boost in performance." />
 <link rel="canonical" href="/c++/python/geospatial/2023/10/15/rewriting-bng-lat-lon-in-cpp.html" />
 <meta property="og:url" content="/c++/python/geospatial/2023/10/15/rewriting-bng-lat-lon-in-cpp.html" />
 <meta property="og:site_name" content="JFKSOM" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2023-10-15T13:00:00+01:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Rewriting blocl-bnglatlon in C++" />
+<meta property="twitter:title" content="Rewriting Python Modules in C++, for Performance" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-10-15T13:00:00+01:00","datePublished":"2023-10-15T13:00:00+01:00","description":"High-performance applications are often written in a lower-level language, such as C++ of Rust, rather than Python. This is particularly common in the world of AI, where organisations including Tesla develop models in Python, and then rewrite them in C++ to improve performance.","headline":"Rewriting blocl-bnglatlon in C++","mainEntityOfPage":{"@type":"WebPage","@id":"/c++/python/geospatial/2023/10/15/rewriting-bng-lat-lon-in-cpp.html"},"url":"/c++/python/geospatial/2023/10/15/rewriting-bng-lat-lon-in-cpp.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-10-15T13:00:00+01:00","datePublished":"2023-10-15T13:00:00+01:00","description":"High-performance applications are often written in a lower-level language, such as C++ of Rust, rather than Python. This is common in the world of AI, where organisations including Tesla develop models in Python, and then rewrite them in C++ to improve performance. The primary allure of lower-level languages lies in their ability to provide finer control over system resources, thereby unlocking a significant boost in performance.","headline":"Rewriting Python Modules in C++, for Performance","mainEntityOfPage":{"@type":"WebPage","@id":"/c++/python/geospatial/2023/10/15/rewriting-bng-lat-lon-in-cpp.html"},"url":"/c++/python/geospatial/2023/10/15/rewriting-bng-lat-lon-in-cpp.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="JFKSOM" /></head>
 <body><header class="site-header" role="banner">
@@ -40,18 +40,18 @@
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Rewriting blocl-bnglatlon in C++</h1>
+    <h1 class="post-title p-name" itemprop="name headline">Rewriting Python Modules in C++, for Performance</h1>
     <p class="post-meta">
       <time class="dt-published" datetime="2023-10-15T13:00:00+01:00" itemprop="datePublished">Oct 15, 2023
       </time></p>
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <p>High-performance applications are often written in a lower-level language, such as C++ of Rust, rather than Python. This is particularly common in the world of AI, where organisations including Tesla develop models in Python, and then rewrite them in C++ to improve performance.</p>
+    <p>High-performance applications are often written in a lower-level language, such as C++ of Rust, rather than Python. This is common in the world of AI, where organisations including Tesla develop models in Python, and then rewrite them in C++ to improve performance. The primary allure of lower-level languages lies in their ability to provide finer control over system resources, thereby unlocking a significant boost in performance.</p>
 
-<p>Having little experience with C++ (I did some microcontroller work in C ~10 years ago), I thought rewriting a basic Python package in C++ might be a good place to start. As an Earth Science graduate, working in software engineering, it seemed fitting to work on something geospatial. In previous projects I’ve used <a href="https://github.com/fmalina/blocl-bnglatlon">fmalina/blocl-bnglatlon</a>, which converts British National Grid (OSBG 36) to lat-lon (WGS84).</p>
+<p>With a foundational understanding of C++, courtesy of my past engagement with microcontroller programming in C, the venture of elevating a basic Python package to C++ piqued my interest. As an Earth Science graduate, working in software engineering, it seemed fitting to work on something geospatial. In previous projects I’ve used <a href="https://github.com/fmalina/blocl-bnglatlon">fmalina/blocl-bnglatlon</a>, which converts British National Grid (OSBG 36) to lat-lon (WGS84). Whilst efficient, I suspected I could improve the performance of this package by reqwriting it in C++.</p>
 
-<p>Short of utilising constants, I’ve not changed much in the code - there’s not much that can be changed. The code’s available <a href="https://github.com/JKFSOM/bnglatlon-cpp">on GitHub</a>.</p>
+<p>Aside from utilizing constants, not much has been altered in the code; it largely represents a straightforward translation to C++. The code’s available <a href="https://github.com/JKFSOM/bnglatlon-cpp">on GitHub</a>.</p>
 
 <h3 id="results">Results</h3>
 
@@ -85,8 +85,8 @@
 </table>
 
 <ul>
-  <li><strong>Duration:</strong> The duration for processing in C++ is significantly lower, showcasing <strong>a reduction of −91.15%</strong>. This reduction in time is a massive gain in performance which is essential in high-performance applications.</li>
-  <li><strong>Memory:</strong> The memory consumption is nearly identical between Python and C++, with a slight reduction in memory usage in the C++ implementation.</li>
+  <li><strong>Duration:</strong> The duration for processing in C++ is significantly lower, showcasing <strong>a reduction of −91.15%</strong>. This reduction in time is a massive gain in performance, which is essential in high-performance applications.</li>
+  <li><strong>Memory:</strong> The memory consumption is nearly identical between Python and C++, with a slight reduction in memory usage in the C++ implementation. This was expected.</li>
 </ul>
 
 <h3 id="conclusion">Conclusion</h3>

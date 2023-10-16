@@ -1,15 +1,15 @@
 ---
 layout: post
-title:  "Rewriting blocl-bnglatlon in C++"
+title:  "Rewriting Python Modules in C++, for Performance"
 date:   2023-10-15 12:00:00 +0000
 categories: C++ python geospatial
 published: true
 ---
-High-performance applications are often written in a lower-level language, such as C++ of Rust, rather than Python. This is particularly common in the world of AI, where organisations including Tesla develop models in Python, and then rewrite them in C++ to improve performance.
+High-performance applications are often written in a lower-level language, such as C++ of Rust, rather than Python. This is common in the world of AI, where organisations including Tesla develop models in Python, and then rewrite them in C++ to improve performance. The primary allure of lower-level languages lies in their ability to provide finer control over system resources, thereby unlocking a significant boost in performance. 
 
-Having little experience with C++ (I did some microcontroller work in C ~10 years ago), I thought rewriting a basic Python package in C++ might be a good place to start. As an Earth Science graduate, working in software engineering, it seemed fitting to work on something geospatial. In previous projects I've used [fmalina/blocl-bnglatlon](https://github.com/fmalina/blocl-bnglatlon), which converts British National Grid (OSBG 36) to lat-lon (WGS84).
+With a foundational understanding of C++, courtesy of my past engagement with microcontroller programming in C, the venture of elevating a basic Python package to C++ piqued my interest. As an Earth Science graduate, working in software engineering, it seemed fitting to work on something geospatial. In previous projects I've used [fmalina/blocl-bnglatlon](https://github.com/fmalina/blocl-bnglatlon), which converts British National Grid (OSBG 36) to lat-lon (WGS84). Whilst efficient, I suspected I could improve the performance of this package by reqwriting it in C++.
 
-Short of utilising constants, I've not changed much in the code - there's not much that can be changed. The code's available [on GitHub](https://github.com/JKFSOM/bnglatlon-cpp).
+Aside from utilizing constants, not much has been altered in the code; it largely represents a straightforward translation to C++. The code's available [on GitHub](https://github.com/JKFSOM/bnglatlon-cpp).
 
 ### Results
 
@@ -21,8 +21,8 @@ The following results were gathered over 100 runs.
 | C++ | 0.81958 | 20.812500 |
 | ∆ | 8.455 | ~0 |
 
-- **Duration:** The duration for processing in C++ is significantly lower, showcasing **a reduction of −91.15%**. This reduction in time is a massive gain in performance which is essential in high-performance applications.
-- **Memory:** The memory consumption is nearly identical between Python and C++, with a slight reduction in memory usage in the C++ implementation.
+- **Duration:** The duration for processing in C++ is significantly lower, showcasing **a reduction of −91.15%**. This reduction in time is a massive gain in performance, which is essential in high-performance applications.
+- **Memory:** The memory consumption is nearly identical between Python and C++, with a slight reduction in memory usage in the C++ implementation. This was expected.
 
 ### Conclusion
 
