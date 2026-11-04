@@ -79,6 +79,6 @@ Build diagrams as Astro components with real text, and derive their dimensions f
 
 ## Deploy
 
-Pushing to `dev` runs `.github/workflows/deploy.yml`, which tests the site and publishes `dist/`. Pull requests run the same tests without publishing.
+Pull requests into `dev` run `.github/workflows/test.yml`, which only tests the site. Pushing to `dev` runs `.github/workflows/deploy.yml`, which tests the site and publishes `dist/`.
 
 The Pages source must be set to **GitHub Actions** under Settings, Pages. `public/CNAME` keeps the custom domain.
