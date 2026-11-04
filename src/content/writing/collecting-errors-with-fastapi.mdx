@@ -1,0 +1,98 @@
+---
+title: Collecting Validation Errors in FastAPI/Pydantic
+summary: Return every validation failure in one response instead of stopping at the first.
+date: 2023-09-18
+updated: 2026-11-04
+topic: Engineering
+legacyPath: /fastapi/pydantic/2023/09/18/collecting-errors-with-fastapi.html
+---
+
+FastAPI has become a popular choice for building APIs, largely because it is built on the [Starlette framework](https://www.starlette.io/) and the [Pydantic library](https://github.com/pydantic/pydantic). One of its standout features is robust request validation using Pydantic.
+
+FastAPI's built-in validation is enough in most cases, but occasionally more is needed, for example when dealing with conditional validation. This can be achieved using [field validators](https://docs.pydantic.dev/latest/concepts/validators/#field-validators) and [model validators](https://docs.pydantic.dev/latest/concepts/validators/#model-validators).
+
+However, a custom validator surfaces an exception as soon as it fails. When building a backend for a web service, it can be useful to collect all errors before responding, so that the user can fix everything at once. To do this we can use a `model_validator` with `mode="wrap"`, together with `ValidationError.from_exception_data()`.
+
+## Solution
+
+Obvious improvements can be made to the following code, such as using an enum for `size_unit`. However, this is a bare-bones example of how to collect and return validation errors in one go.
+
+```python title="products.py"
+from typing import Any
+
+from fastapi import FastAPI
+from pydantic import BaseModel, Field, ValidationError, model_validator
+from pydantic_core import InitErrorDetails
+
+
+class ProductModel(BaseModel):
+    name: str
+    size_unit: str
+    size_cm: float | None = Field(default=None)
+    size_in: float | None = Field(default=None)
+
+    @model_validator(mode="wrap")
+    @classmethod
+    def check_size(cls, data: Any, handler) -> Any:
+        validation_errors: list[InitErrorDetails] = []
+
+        # 1. Run the custom validation
+        needs_cm = isinstance(data, dict) and data.get("size_unit") == "cm"
+        if needs_cm and data.get("size_cm") is None:
+            validation_errors.append(
+                InitErrorDetails(
+                    type="missing",
+                    loc=("size_cm",),
+                    input=data,
+                )
+            )
+
+        # 2. Run the standard model validation
+        validated = None
+        try:
+            validated = handler(data)
+        except ValidationError as error:
+            validation_errors.extend(error.errors())
+
+        # 3. Raise everything that failed, if anything did
+        if validation_errors:
+            raise ValidationError.from_exception_data(
+                title=cls.__name__,
+                line_errors=validation_errors,
+            )
+
+        return validated
+
+
+app = FastAPI()
+
+
+@app.post("/products")
+def create_product(product: ProductModel) -> ProductModel:
+    return product
+```
+
+The `isinstance` check matters. FastAPI validates the response as well, and at that point the validator receives a model instance rather than a dictionary.
+
+Sending a request that contains only `size_unit="cm"` returns both errors together, with a 422 status:
+
+```json title="Response"
+{
+  "detail": [
+    {
+      "type": "missing",
+      "loc": ["body", "size_cm"],
+      "msg": "Field required",
+      "input": { "size_unit": "cm" }
+    },
+    {
+      "type": "missing",
+      "loc": ["body", "name"],
+      "msg": "Field required",
+      "input": { "size_unit": "cm" }
+    }
+  ]
+}
+```
+
+This example was last tested with Pydantic 2.14 and FastAPI 0.162.

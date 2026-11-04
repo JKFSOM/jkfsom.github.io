@@ -1,0 +1,40 @@
+---
+/**
+ * Annotation block for MDX. Use kind="inferred" for anything a model wrote,
+ * which draws it with the site's dashed outline.
+ */
+interface Props {
+  title: string;
+  kind?: 'note' | 'inferred';
+}
+
+const { title, kind = 'note' } = Astro.props;
+---
+
+<aside class:list={['callout', kind]}>
+  <p class="ui">{title}</p>
+  <div class="note"><slot /></div>
+</aside>
+
+<style>
+  .callout {
+    display: grid;
+    gap: 4px;
+    padding: 24px;
+    background: var(--ochre-tint);
+  }
+
+  .note {
+    color: var(--ink);
+  }
+
+  .inferred {
+    background: var(--inferred-tint);
+    outline: 1.5px dashed var(--inferred);
+    outline-offset: -1px;
+  }
+
+  .inferred .ui {
+    color: var(--inferred);
+  }
+</style>

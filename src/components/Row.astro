@@ -1,0 +1,14 @@
+---
+/** The site's core structure: a ruled rail and content area on one grid. */
+interface Props {
+  minor?: boolean;
+  label?: string;
+}
+
+const { minor = false, label } = Astro.props;
+---
+
+<section class:list={['row', { 'row--minor': minor }]} aria-label={label}>
+  <div class="rail stack"><slot name="rail" /></div>
+  <div class="content"><slot /></div>
+</section>

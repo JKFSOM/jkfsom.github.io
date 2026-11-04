@@ -1,0 +1,38 @@
+---
+import ArticleRow from '../../components/ArticleRow.astro';
+import Row from '../../components/Row.astro';
+import Base from '../../layouts/Base.astro';
+import { getArticles } from '../../lib/content';
+
+const articles = await getArticles();
+const years = [...new Set(articles.map((article) => article.data.date.getUTCFullYear()))];
+const description = 'Technical articles, engineering notes and what I learn from building things.';
+---
+
+<Base title="Writing" description={description} active="writing">
+  <div class="shell page-end spaced">
+    <Row>
+      <Fragment slot="rail" />
+      <h1 class="display">Writing</h1>
+      <p class="lede lede-gap">{description}</p>
+    </Row>
+    {
+      years.map((year) => (
+        <Row label={String(year)}>
+          <h2 slot="rail" class="heading-1">{year}</h2>
+          <div class="ledger">
+            {articles
+              .filter((article) => article.data.date.getUTCFullYear() === year)
+              .map((article) => <ArticleRow article={article} />)}
+          </div>
+        </Row>
+      ))
+    }
+  </div>
+</Base>
+
+<style>
+  .lede-gap {
+    margin-top: 16px;
+  }
+</style>

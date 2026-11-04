@@ -1,0 +1,384 @@
+.ox {
+  --text: var(--ink);
+  --text-quiet: var(--graphite);
+  border: 1px solid var(--rule-strong);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--surface);
+  color: var(--ink);
+  font: 400 14px/20px var(--font-sans);
+}
+
+.ox h2,
+.ox h3 {
+  margin: 0;
+  font: 600 17px/24px var(--font-sans);
+}
+
+.ox p {
+  margin: 0;
+}
+
+.ox button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.ox-toolbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 24px;
+}
+
+.ox-toolbar p {
+  color: var(--graphite);
+  font-weight: 500;
+}
+
+.ox-filters {
+  display: flex;
+  gap: 8px;
+  padding: 0 24px 16px;
+  overflow-x: auto;
+}
+
+.ox-filters button {
+  flex: none;
+  padding: 4px 12px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 2px;
+  background: none;
+  font-weight: 500;
+}
+
+.ox-filters button:hover {
+  background: var(--sunken);
+}
+
+.ox-filters button[aria-pressed='true'] {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--surface);
+}
+
+.ox-panes {
+  display: grid;
+  grid-template-columns: minmax(0, 60fr) minmax(0, 40fr);
+  border-block: 1px solid var(--rule);
+}
+
+.ox-main {
+  border-right: 1px solid var(--rule);
+}
+
+.ox table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ox thead th {
+  color: var(--graphite);
+  font-weight: 400;
+}
+
+.ox th,
+.ox td {
+  padding: 13px 8px;
+  border-bottom: 1px solid var(--rule);
+  text-align: right;
+}
+
+.ox th:first-child,
+.ox .ox-category,
+.ox thead th:nth-child(2) {
+  text-align: left;
+}
+
+.ox th:first-child {
+  padding-left: 24px;
+}
+
+.ox th:last-child,
+.ox td:last-child {
+  padding-right: 24px;
+}
+
+.ox .ox-category {
+  color: var(--graphite);
+  white-space: nowrap;
+}
+
+.ox tbody th:first-child {
+  padding: 0;
+  font-weight: 500;
+}
+
+.ox tbody th button {
+  display: block;
+  width: 100%;
+  padding: 13px 8px 13px 24px;
+  border: 0;
+  background: none;
+  font-weight: 500;
+  text-align: left;
+}
+
+.ox tbody tr:hover {
+  background: var(--sunken);
+}
+
+.ox tbody tr.is-selected {
+  background: var(--deep);
+  color: var(--on-deep);
+}
+
+.ox tbody tr.is-selected .ox-category {
+  color: var(--on-deep);
+}
+
+.ox tbody button:focus-visible,
+.ox-filters button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -3px;
+}
+
+.ox-context {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 24px;
+  padding: 24px;
+}
+
+.ox-chart {
+  margin: 0;
+}
+
+.ox-bars {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 6px;
+  height: 140px;
+}
+
+.ox-column {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) 16px;
+  gap: 8px;
+}
+
+.ox-bar {
+  position: relative;
+  align-self: end;
+  min-height: 2px;
+  background: var(--sea);
+}
+
+.ox-bar--benchmark {
+  background: var(--ink);
+}
+
+.ox-marker {
+  position: absolute;
+  inset-inline: 0;
+  height: 4px;
+  background: var(--coral);
+}
+
+.ox-axis {
+  color: var(--graphite);
+  font: 500 12px/16px var(--font-sans);
+  text-align: center;
+}
+
+.ox-chart figcaption,
+.ox-method p,
+.ox-sub {
+  color: var(--graphite);
+}
+
+.ox-chart figcaption {
+  margin-top: 8px;
+}
+
+.ox-method h3 {
+  font: 500 14px/20px var(--font-sans);
+}
+
+.ox-detail {
+  display: grid;
+  align-content: start;
+  gap: 24px;
+  padding: 24px;
+}
+
+.ox .ox-query {
+  font: 600 21px/29px var(--font-sans);
+  letter-spacing: -0.015em;
+}
+
+.ox-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border-radius: 2px;
+  background: var(--measured-tint);
+  font: 500 12px/16px var(--font-sans);
+}
+
+.ox-badge i {
+  width: 8px;
+  height: 8px;
+  background: var(--ink);
+}
+
+.ox-badge--inferred {
+  padding-inline: 0;
+  background: none;
+  color: var(--inferred);
+}
+
+.ox-badge--inferred i {
+  border: 1.5px dashed var(--inferred);
+  border-radius: 50%;
+  background: none;
+}
+
+.ox dl {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 12px 0 0;
+}
+
+.ox dd {
+  margin: 0;
+  font: 600 27px/35px var(--font-sans);
+  letter-spacing: -0.02em;
+}
+
+.ox dt {
+  color: var(--graphite);
+}
+
+.ox-inferred {
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+  padding: 16px;
+  outline: 1.5px dashed var(--inferred);
+  outline-offset: -1px;
+  background: var(--inferred-tint);
+}
+
+.ox-explanation {
+  font: 400 16px/24px var(--font-serif);
+}
+
+.ox-disclaimer {
+  color: var(--inferred);
+}
+
+.ox-footer {
+  padding: 12px 24px;
+  color: var(--graphite);
+}
+
+@media (max-width: 1099px) {
+  .ox-panes {
+    grid-template-columns: 1fr;
+  }
+
+  .ox-main {
+    border-right: 0;
+  }
+
+  .ox-detail {
+    border-top: 1px solid var(--rule);
+  }
+}
+
+@media (max-width: 899px) {
+  .ox {
+    border-inline: 0;
+    border-radius: 0;
+  }
+
+  .ox-toolbar {
+    display: block;
+    padding-inline: 20px;
+  }
+
+  .ox-toolbar p {
+    font-weight: 400;
+  }
+
+  .ox-filters {
+    padding-inline: 20px;
+  }
+
+  .ox thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .ox tbody tr {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 4px 16px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .ox tbody th:first-child,
+  .ox tbody td,
+  .ox tbody td:last-child {
+    padding: 0;
+    border: 0;
+  }
+
+  .ox tbody th:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .ox tbody th button {
+    padding: 0;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .ox tbody td[data-label='Impressions'],
+  .ox tbody td[data-label='Clicks'] {
+    display: none;
+  }
+
+  .ox tbody td[data-label]::before {
+    content: attr(data-label) ' ';
+  }
+
+  .ox tbody td[data-label='Position']::before {
+    content: 'Pos ';
+  }
+
+  .ox-context {
+    grid-template-columns: 1fr;
+    padding: 24px 20px;
+  }
+
+  .ox-detail {
+    padding: 24px 20px;
+  }
+
+  .ox dl {
+    gap: 12px;
+  }
+
+  .ox-footer {
+    padding-inline: 20px;
+  }
+}

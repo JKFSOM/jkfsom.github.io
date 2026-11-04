@@ -1,0 +1,170 @@
+---
+import { site } from '../lib/content';
+import Wordmark from './Wordmark.astro';
+
+interface Props {
+  active?: 'writing' | 'projects' | 'about';
+}
+
+const { active } = Astro.props;
+const links = [
+  { id: 'writing', label: 'Writing', href: '/writing/' },
+  { id: 'projects', label: 'Projects', href: '/projects/' },
+  { id: 'about', label: 'About', href: '/about/' },
+];
+---
+
+<header class="shell">
+  <div class="bar">
+    <div class="brand"><Wordmark /></div>
+    <nav aria-label="Main">
+      {
+        links.map((link) => (
+          <a
+            class="ui"
+            href={link.href}
+            aria-current={active === link.id ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+    <details class="menu">
+      <summary class="ui">
+        <span class="when-closed">Menu</span>
+        <span class="when-open">Close</span>
+      </summary>
+      <div class="sheet">
+        <div class="sheet-brand"><Wordmark /></div>
+        <nav aria-label="Mobile">
+          {
+            links.map((link) => (
+              <a href={link.href} aria-current={active === link.id ? 'page' : undefined}>
+                {link.label}
+              </a>
+            ))
+          }
+        </nav>
+        <p class="ui secondary">
+          <a href="/feed.xml">RSS</a>
+          <a href={site.github}>GitHub</a>
+        </p>
+      </div>
+    </details>
+  </div>
+</header>
+
+<style>
+  .bar {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    align-items: center;
+    padding-block: 32px;
+  }
+
+  .brand {
+    grid-column: span 3;
+  }
+
+  .bar > nav {
+    grid-column: span 9;
+    display: flex;
+    gap: 32px;
+  }
+
+  .bar > nav a {
+    color: var(--text-quiet);
+    text-decoration: none;
+  }
+
+  .bar > nav a:hover {
+    color: var(--text);
+  }
+
+  .bar > nav a[aria-current] {
+    color: var(--text);
+    text-decoration: underline;
+  }
+
+  .menu {
+    display: none;
+  }
+
+  @media (max-width: 899px) {
+    .bar {
+      display: flex;
+      justify-content: space-between;
+      padding-block: 16px;
+    }
+
+    .bar > nav {
+      display: none;
+    }
+
+    .menu {
+      display: block;
+    }
+
+    summary {
+      position: relative;
+      z-index: 11;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .when-open,
+    .menu[open] .when-closed {
+      display: none;
+    }
+
+    .menu[open] .when-open {
+      display: inline;
+    }
+
+    .sheet {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      display: grid;
+      align-content: start;
+      gap: 48px;
+      padding: 16px var(--margin) 32px;
+      overflow-y: auto;
+      background: var(--paper);
+      color: var(--ink);
+      --text: var(--ink);
+      --text-quiet: var(--graphite);
+    }
+
+    .menu[open] summary {
+      color: var(--ink);
+    }
+
+    .sheet nav {
+      display: grid;
+      gap: 16px;
+      font: 700 38px/44px var(--font-sans);
+      letter-spacing: -0.02em;
+    }
+
+    .sheet nav a {
+      text-decoration: none;
+    }
+
+    .sheet nav a[aria-current] {
+      text-decoration: underline;
+    }
+
+    .secondary {
+      display: flex;
+      gap: 24px;
+      color: var(--graphite);
+    }
+  }
+</style>

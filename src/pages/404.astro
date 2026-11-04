@@ -1,0 +1,20 @@
+---
+import Row from '../components/Row.astro';
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Page not found" description="This page does not exist." noindex>
+  <div class="shell page-end">
+    <Row>
+      <p slot="rail" class="ui">404</p>
+      <h1 class="display">Page not found</h1>
+      <p class="lede gap">This page has moved or never existed. Try <a href="/writing/">Writing</a> or <a href="/projects/">Projects</a>.</p>
+    </Row>
+  </div>
+</Base>
+
+<style>
+  .gap {
+    margin-top: 16px;
+  }
+</style>

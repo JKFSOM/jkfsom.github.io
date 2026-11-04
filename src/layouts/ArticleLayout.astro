@@ -1,0 +1,85 @@
+---
+import { render } from 'astro:content';
+
+import CopyCode from '../components/CopyCode.astro';
+import Row from '../components/Row.astro';
+import {
+  articleHref,
+  formatDate,
+  readingMinutes,
+  site,
+  topicColours,
+  type Article,
+} from '../lib/content';
+import Base from './Base.astro';
+
+interface Props {
+  article: Article;
+}
+
+const { article } = Astro.props;
+const { title, summary, date, updated, topic } = article.data;
+const { Content } = await render(article);
+const href = articleHref(article);
+const hasCode = article.body?.includes('```');
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description: summary,
+  datePublished: date.toISOString(),
+  dateModified: (updated ?? date).toISOString(),
+  url: new URL(href, Astro.site).href,
+  inLanguage: 'en-GB',
+  author: { '@type': 'Person', name: site.name, url: site.github },
+};
+---
+
+<Base
+  title={title}
+  description={summary}
+  active="writing"
+  canonical={href}
+  type="article"
+  structuredData={structuredData}
+>
+  <div class="shell">
+    <Row>
+      <Fragment slot="rail">
+        <p class="ui topic">
+          <span class="swatch" style={`background:${topicColours[topic]}`}></span>
+          {topic}
+        </p>
+        <p class="meta">{formatDate(date)}</p>
+        {updated && <p class="meta">Updated {formatDate(updated)}</p>}
+        <p class="meta">{readingMinutes(article.body)} minute read</p>
+      </Fragment>
+      <h1 class="display">{title}</h1>
+      <p class="lede head-lede">{summary}</p>
+    </Row>
+    <article class="doc head-gap"><Content /></article>
+  </div>
+  {hasCode && <CopyCode />}
+</Base>
+
+<style>
+  .topic {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .swatch {
+    width: 20px;
+    height: 12px;
+  }
+
+  .head-lede {
+    margin-top: 20px;
+  }
+
+  .head-gap {
+    margin-top: 56px;
+  }
+</style>
