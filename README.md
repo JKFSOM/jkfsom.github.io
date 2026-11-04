@@ -10,7 +10,7 @@ npm run dev    # Preview at http://localhost:4321, including drafts
 npm test       # Type check, build and verify. Run this before committing
 ```
 
-Pushing to `dev` publishes the site. There is no CMS, database or backend.
+This needs Node 22.23.4 or later, and CI uses the version in `.nvmrc`. Pushing to `dev` publishes the site. There is no CMS, database or backend.
 
 | To change | Edit |
 | --------- | ---- |
