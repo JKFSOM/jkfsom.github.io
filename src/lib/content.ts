@@ -7,6 +7,7 @@ export const site = {
   name: 'jkfsom',
   description: 'Writing on applied AI, online marketplaces and software engineering.',
   github: 'https://github.com/JKFSOM',
+  email: 'hello@jkfsom.com',
 };
 
 export const topicColours = {
