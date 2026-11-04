@@ -3,7 +3,7 @@ import { render } from 'astro:content';
 
 import Row from '../../../components/Row.astro';
 import Base from '../../../layouts/Base.astro';
-import { getProjects, type Project } from '../../../lib/content';
+import { author, getProjects, projectHref, type Project } from '../../../lib/content';
 
 export async function getStaticPaths() {
   const projects = await getProjects();
@@ -11,11 +11,24 @@ export async function getStaticPaths() {
 }
 
 const { project } = Astro.props as { project: Project };
-const { title, summary, kind, status, repo } = project.data;
+const { title, summary, kind, status, repo, language } = project.data;
 const { Content } = await render(project);
+
+const structuredData = repo
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'SoftwareSourceCode',
+      name: title,
+      description: summary,
+      url: new URL(projectHref(project), Astro.site).href,
+      codeRepository: repo,
+      programmingLanguage: language,
+      author,
+    }
+  : undefined;
 ---
 
-<Base title={title} description={summary} active="projects">
+<Base title={title} description={summary} active="projects" structuredData={structuredData}>
   <div class="shell">
     <Row>
       <Fragment slot="rail">

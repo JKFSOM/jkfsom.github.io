@@ -65,7 +65,7 @@ import CostCalculator from '../../components/demos/CostCalculator';
 
 ## Add a project
 
-Add an MDX file to `src/content/projects/`. Set `repo` to show a source link. `bnglatlon-cpp.mdx` is the example.
+Add an MDX file to `src/content/projects/`. Set `repo` to show a source link and add `SoftwareSourceCode` structured data, and set `language` to its main language. `bnglatlon-cpp.mdx` is the example.
 
 ## Images and diagrams
 

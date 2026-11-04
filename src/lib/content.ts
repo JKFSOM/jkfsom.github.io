@@ -10,6 +10,9 @@ export const site = {
   email: 'hello@jkfsom.com',
 };
 
+/** Author for structured data. Schema.org needs a type alongside the name. */
+export const author = { '@type': 'Person', name: 'JFK', url: site.github };
+
 export const topicColours = {
   'Applied AI': 'var(--coral)',
   Engineering: 'var(--cobalt)',

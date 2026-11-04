@@ -61,6 +61,15 @@ for (const file of htmlFiles) {
   const scripts = [...html.matchAll(/<script[^>]*\ssrc="/g)].length;
   if (!interactive && scripts > 1) fail(`${page}: unexpected scripts on a static page`);
   if (/Write an awesome description|JFKSOM|jfksom\.com/.test(html)) fail(`${page}: stale text`);
+
+  for (const [, json] of html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/g)) {
+    try {
+      const data = JSON.parse(json);
+      if (data.author && data.author.name !== 'JFK') fail(`${page}: wrong author`);
+    } catch {
+      fail(`${page}: invalid structured data`);
+    }
+  }
 }
 
 // The site has no RSS feed, so nothing should offer one.

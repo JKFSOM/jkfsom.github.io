@@ -37,6 +37,8 @@ const projects = defineCollection({
     draft: z.boolean().default(false),
     /** Source code link, shown in the rail of the project page. */
     repo: z.string().url().optional(),
+    /** Main language of the repository, for structured data. */
+    language: z.string().optional(),
   }),
 });
 
