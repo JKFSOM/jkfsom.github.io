@@ -82,3 +82,7 @@ Build diagrams as Astro components with real text, and derive their dimensions f
 Pull requests into `dev` run `.github/workflows/test.yml`, which only tests the site. Pushing to `dev` runs `.github/workflows/deploy.yml`, which tests the site and publishes `dist/`.
 
 The Pages source must be set to **GitHub Actions** under Settings, Pages. `public/CNAME` keeps the custom domain.
+
+## Dependencies
+
+Dependabot opens grouped updates weekly, ignoring releases less than seven days old. When the tests pass, `.github/workflows/dependabot-merge.yml` merges the update and deploys it, including major versions. There is no visual check, so review the site after large updates.
