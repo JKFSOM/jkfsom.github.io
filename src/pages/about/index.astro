@@ -1,6 +1,7 @@
 ---
 import Row from '../../components/Row.astro';
 import Base from '../../layouts/Base.astro';
+import { site } from '../../lib/content';
 
 const rows = [
   {
@@ -51,6 +52,10 @@ const rows = [
         </Row>
       ))
     }
+    <Row minor label="Contact">
+      <h2 slot="rail" class="heading-3">Contact</h2>
+      <p class="body"><a href={`mailto:${site.email}`}>{site.email}</a></p>
+    </Row>
   </div>
 </Base>
 
