@@ -71,7 +71,14 @@ for (const file of files.filter((name) => /sitemap-\d+\.xml$/.test(name))) {
   const xml = fs.readFileSync(file, 'utf8');
   for (const [, url] of xml.matchAll(/<loc>https:\/\/www\.jkfsom\.com(\/[^<]*)<\/loc>/g)) {
     if (url.includes('404')) fail('sitemap lists the 404 page');
-    if (!resolves(url)) fail(`sitemap: broken entry ${url}`);
+    // Sitemap entries must be exact, because GitHub Pages will not guess.
+    const target = url.endsWith('/') ? `${url.slice(1)}index.html` : url.slice(1);
+    if (!exists(decodeURI(target))) fail(`sitemap: entry is not a published URL: ${url}`);
+
+    const page = target.endsWith('.html') ? read(decodeURI(target)) : '';
+    if (!page.includes(`rel="canonical" href="https://www.jkfsom.com${url}"`)) {
+      fail(`sitemap: entry does not match its canonical URL: ${url}`);
+    }
   }
 }
 
