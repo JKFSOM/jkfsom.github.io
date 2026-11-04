@@ -55,11 +55,21 @@ html {
 }
 
 body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100svh;
   margin: 0;
   background: var(--paper);
   color: var(--ink);
   font: 400 18px/1.6 var(--font-serif);
   overflow-wrap: break-word;
+}
+
+/* Keeps the footer at the bottom of the window on short pages. */
+main {
+  flex: 1 0 auto;
+  min-width: 0;
 }
 
 h1,
