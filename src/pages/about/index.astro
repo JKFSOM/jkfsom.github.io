@@ -1,27 +1,35 @@
 ---
 import Row from '../../components/Row.astro';
 import Base from '../../layouts/Base.astro';
-import { site } from '../../lib/content';
 
 const rows = [
   {
     label: 'Work',
-    text: 'I build online marketplaces and applied AI systems, mostly in Python and Go, across backend systems, APIs and infrastructure.',
+    paragraphs: [
+      'I build and operate technology businesses, working across product, engineering, marketing and operations.',
+      'My background is in software engineering, with extensive experience building and operating production cloud systems. I work across both the technical and commercial sides of bringing products to market.',
+    ],
   },
   {
     label: 'Focus',
-    text: 'On the AI side I work on agents, tool use, orchestration, evaluation and the harnesses that make them dependable in production. On the marketplace side I work on SEO, marketing automation and the product decisions that drive growth.',
+    paragraphs: [
+      'My work increasingly centres on applied AI, automation and the economics of software businesses.',
+      'Current projects include AI agents for research and marketing, alongside broader work on marketplaces, distribution and business operations.',
+    ],
   },
   {
     label: 'This site',
-    text: 'This is where I publish what I learn from that work. Anything a model produced is drawn with a dashed line, so it can be told apart from what was measured.',
+    paragraphs: [
+      'A collection of writing, research and technical work covering software, AI, technology businesses and the systems behind them.',
+      'I publish things I’ve built, investigated or found worth sharing.',
+    ],
   },
 ];
 ---
 
 <Base
   title="About"
-  description="Software engineer building online marketplaces and applied AI systems."
+  description="Building and operating technology businesses, across product, engineering, marketing and operations."
   active="about"
 >
   <div class="shell page-end spaced--tight">
@@ -35,20 +43,21 @@ const rows = [
           <h2 slot="rail" class="heading-3">
             {row.label}
           </h2>
-          <p class="body">{row.text}</p>
+          <div class="body">
+            {row.paragraphs.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+          </div>
         </Row>
       ))
     }
-    <Row minor label="Elsewhere">
-      <h2 slot="rail" class="heading-3">Elsewhere</h2>
-      <p class="ui"><a href={site.github}>GitHub</a></p>
-      <p class="ui"><a href="/feed.xml">RSS</a></p>
-    </Row>
   </div>
 </Base>
 
 <style>
   .body {
+    display: grid;
+    gap: 16px;
     max-width: 760px;
     font-size: 20px;
     line-height: 33px;
