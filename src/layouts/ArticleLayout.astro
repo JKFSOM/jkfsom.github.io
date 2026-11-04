@@ -5,9 +5,9 @@ import CopyCode from '../components/CopyCode.astro';
 import Row from '../components/Row.astro';
 import {
   articleHref,
+  author,
   formatDate,
   readingMinutes,
-  site,
   topicColours,
   type Article,
 } from '../lib/content';
@@ -32,7 +32,7 @@ const structuredData = {
   dateModified: (updated ?? date).toISOString(),
   url: new URL(href, Astro.site).href,
   inLanguage: 'en-GB',
-  author: { '@type': 'Person', name: site.name, url: site.github },
+  author,
 };
 ---
 
