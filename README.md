@@ -75,7 +75,7 @@ Build diagrams as Astro components with real text, and derive their dimensions f
 
 ## Test
 
-`npm test` runs `scripts/verify-build.mjs` after the build. It checks preserved URLs, internal links, metadata, the feed, the sitemap, script use on static pages, and that no draft is published.
+`npm test` runs `scripts/verify-build.mjs` after the build. It checks preserved URLs, internal links, metadata, the sitemap, script use on static pages, and that no draft is published.
 
 ## Deploy
 

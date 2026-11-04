@@ -21,7 +21,6 @@ const exists = (relative) => fs.existsSync(path.join(dist, relative));
 for (const url of [
   'index.html',
   'about/index.html',
-  'feed.xml',
   'c++/python/geospatial/2023/10/15/rewriting-bng-lat-lon-in-cpp.html',
   'fastapi/pydantic/2023/09/18/collecting-errors-with-fastapi.html',
 ]) {
@@ -64,13 +63,8 @@ for (const file of htmlFiles) {
   if (/Write an awesome description|JFKSOM|jfksom\.com/.test(html)) fail(`${page}: stale text`);
 }
 
-// The feed must not carry the removed boilerplate post.
-const feed = exists('feed.xml') ? read('feed.xml') : '';
-if (!feed.includes('<rss')) fail('feed.xml is not RSS');
-if (/welcome-to-jekyll|Welcome to Jekyll/.test(feed)) fail('feed.xml contains the Jekyll post');
-for (const [, link] of feed.matchAll(/<link>https:\/\/www\.jkfsom\.com(\/[^<]*)<\/link>/g)) {
-  if (!resolves(link)) fail(`feed.xml: broken item ${link}`);
-}
+// The site has no RSS feed, so nothing should offer one.
+if (exists('feed.xml')) fail('feed.xml should not be published');
 
 // Sitemap entries must resolve too, and must omit the 404 page.
 for (const file of files.filter((name) => /sitemap-\d+\.xml$/.test(name))) {
@@ -87,6 +81,7 @@ const builtText = files
   .map((file) => fs.readFileSync(file, 'utf8'))
   .join('\n');
 if (builtText.includes('astro-dev-toolbar')) fail('The dev toolbar is in the build');
+if (/feed\.xml|application\/rss\+xml/.test(builtText)) fail('A page still links to an RSS feed');
 const contentFiles = walk(path.resolve('src/content')).filter((file) => /\.mdx?$/.test(file));
 let drafts = 0;
 for (const file of contentFiles) {
@@ -105,5 +100,5 @@ if (failures.length) {
   process.exit(1);
 }
 console.log(
-  `Verified ${htmlFiles.length} pages: URLs, links, metadata, feed, sitemap and scripts. ${drafts} draft(s) excluded.`,
+  `Verified ${htmlFiles.length} pages: URLs, links, metadata, sitemap and scripts. ${drafts} draft(s) excluded.`,
 );
