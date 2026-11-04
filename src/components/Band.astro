@@ -1,0 +1,24 @@
+---
+/** A full-bleed dark band for working software, usable inside MDX. */
+---
+
+<div class="band tone-deep"><slot /></div>
+
+<style>
+  .doc-section > .band,
+  .band {
+    grid-column: 1 / -1;
+    padding-block: 48px;
+    box-shadow: 0 0 0 100vmax var(--deep);
+    clip-path: inset(0 -100vmax);
+  }
+
+  @media (max-width: 899px) {
+    .band {
+      margin-inline: calc(-1 * var(--margin));
+      padding-block: 0;
+      box-shadow: none;
+      clip-path: none;
+    }
+  }
+</style>

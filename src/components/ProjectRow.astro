@@ -1,0 +1,42 @@
+---
+import { projectHref, type Project } from '../lib/content';
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const { title, summary, kind } = project.data;
+---
+
+<article>
+  <p class="meta">{kind}</p>
+  <h3 class="heading-3"><a href={projectHref(project)}>{title}</a></h3>
+  <p class="note">{summary}</p>
+</article>
+
+<style>
+  article {
+    display: grid;
+    grid-template-columns: 130px 300px minmax(0, 1fr);
+    gap: var(--gutter);
+    padding-block: 20px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  h3 a {
+    text-decoration: none;
+  }
+
+  h3 a:hover {
+    text-decoration: underline;
+    color: inherit;
+  }
+
+  @media (max-width: 899px) {
+    article {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+  }
+</style>

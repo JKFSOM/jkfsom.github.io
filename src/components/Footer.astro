@@ -1,0 +1,116 @@
+---
+import { site, topicColours } from '../lib/content';
+import Wordmark from './Wordmark.astro';
+
+const links = [
+  { label: 'Writing', href: '/writing/' },
+  { label: 'Projects', href: '/projects/' },
+  { label: 'About', href: '/about/' },
+  { label: 'RSS', href: '/feed.xml' },
+  { label: 'GitHub', href: site.github },
+];
+---
+
+<footer class="tone-deep">
+  <div class="shell inner">
+    <Wordmark />
+    <div class="columns">
+      <div class="stack">
+        <p class="label">Key</p>
+        <p class="key"><span class="line"></span>Solid: measured or computed</p>
+        <p class="key"><span class="line dashed"></span>Dashed: inferred by a model</p>
+      </div>
+      <div class="stack">
+        <p class="label">Topics</p>
+        {
+          Object.entries(topicColours).map(([topic, colour]) => (
+            <p class="key">
+              <span class="swatch" style={`background:${colour}`} />
+              {topic}
+            </p>
+          ))
+        }
+      </div>
+      <nav class="stack" aria-label="Footer">
+        <p class="label">Index</p>
+        {links.map((link) => <a class="key" href={link.href}>{link.label}</a>)}
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .inner {
+    display: grid;
+    gap: 16px;
+    padding-block: 64px;
+  }
+
+  .columns {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+  }
+
+  .columns > * {
+    grid-column: span 3;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+
+  .columns > :nth-child(2) {
+    grid-column: span 6;
+  }
+
+  .label {
+    color: var(--text-quiet);
+    font: 500 14px/20px var(--font-sans);
+  }
+
+  .key {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    font: 400 14px/20px var(--font-sans);
+  }
+
+  a.key {
+    text-decoration: none;
+  }
+
+  a.key:hover {
+    text-decoration: underline;
+    color: inherit;
+  }
+
+  .line {
+    width: 40px;
+    border-top: 2px solid var(--on-deep);
+  }
+
+  .dashed {
+    border-top: 2px dashed var(--inferred-on-deep);
+  }
+
+  .swatch {
+    width: 20px;
+    height: 12px;
+  }
+
+  @media (max-width: 899px) {
+    .inner {
+      padding-block: 48px;
+    }
+
+    .columns {
+      display: grid;
+      grid-template-columns: 1fr;
+      row-gap: 32px;
+    }
+
+    .columns > *,
+    .columns > :nth-child(2) {
+      grid-column: 1;
+    }
+  }
+</style>

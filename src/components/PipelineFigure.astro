@@ -1,0 +1,141 @@
+---
+/** The pipeline drawn to scale: block depth is a log scale of rows reaching each step. */
+const steps = [
+  { title: 'Search Console', detail: 'Rows loaded', rows: 41200 },
+  { title: 'Clean', detail: 'Over 1,000 impressions', rows: 3180 },
+  { title: 'Score gaps', detail: 'Below expected CTR', rows: 214 },
+  { title: 'Explain', detail: 'LLM drafts a reason', rows: 40, inferred: true },
+  { title: 'Check claims', detail: 'Figures must match', rows: 38 },
+  { title: 'Report', detail: 'Ranked fixes', rows: 38, final: true },
+];
+
+const PIXELS_PER_DECADE = 46;
+const MAX_ROWS = Math.max(...steps.map((step) => step.rows));
+---
+
+<figure class="pipeline">
+  <ol>
+    {
+      steps.map((step) => (
+        <li
+          class:list={{ inferred: step.inferred, final: step.final }}
+          style={`--depth:${Math.round(PIXELS_PER_DECADE * Math.log10(step.rows))}px;--share:${(Math.log10(step.rows) / Math.log10(MAX_ROWS)).toFixed(3)}`}
+        >
+          <p class="ui">{step.title}</p>
+          <p class="meta">{step.detail}</p>
+          <div class="block">
+            <span>{step.rows.toLocaleString('en-GB')}</span>
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+  <figcaption class="meta">
+    <strong>Figure 1</strong> The pipeline, with each block drawn to a log scale of the rows that
+    reach it. The dashed block is the only step that uses a model. Synthetic data.
+  </figcaption>
+</figure>
+
+<style>
+  .pipeline {
+    grid-column: 1 / -1;
+    margin: 0;
+    padding-block: 24px;
+  }
+
+  ol {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: var(--gutter);
+    margin: 0 0 32px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .block {
+    display: flex;
+    align-items: flex-end;
+    min-height: var(--depth);
+    margin-top: 12px;
+    padding: 12px 16px;
+    background: var(--sea);
+    color: var(--on-deep);
+    font: 700 34px/41px var(--font-sans);
+    letter-spacing: -0.015em;
+  }
+
+  .inferred .ui,
+  .inferred .block {
+    color: var(--inferred);
+  }
+
+  .inferred .block {
+    background: none;
+    outline: 1.5px dashed var(--inferred);
+    outline-offset: -1px;
+  }
+
+  .final .block {
+    background: var(--ochre);
+    color: var(--ink);
+  }
+
+  figcaption strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  @media (max-width: 899px) {
+    ol {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    li {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      column-gap: 16px;
+    }
+
+    .block {
+      display: contents;
+      font: 500 16px/24px var(--font-sans);
+      color: var(--ink);
+    }
+
+    .block span {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .meta {
+      grid-row: 3;
+      grid-column: 1 / -1;
+    }
+
+    li::after {
+      content: '';
+      grid-column: 1 / -1;
+      grid-row: 2;
+      width: calc(100% * var(--share, 1));
+      height: 18px;
+      margin-block: 6px;
+      background: var(--sea);
+    }
+
+    .final::after {
+      background: var(--ochre);
+    }
+
+    .inferred::after {
+      background: none;
+      outline: 1.5px dashed var(--inferred);
+      outline-offset: -1px;
+    }
+
+    .inferred .block {
+      outline: none;
+      color: var(--inferred);
+    }
+  }
+</style>

@@ -1,0 +1,30 @@
+---
+title: Your article title
+summary: One or two sentences that say what the reader will learn.
+date: 2026-01-31
+topic: Engineering # Applied AI, Engineering, Growth or Business
+draft: true # Remove when ready to publish
+---
+
+{/* Copy this file to src/content/writing/your-slug.mdx. Delete the lines you do not need. */}
+
+import Callout from '../../components/Callout.astro';
+import Sidenote from '../../components/Sidenote.astro';
+
+Your introduction goes here, before the first heading.
+
+## First section
+
+Every `##` heading becomes a numbered section with its title in the rail.
+
+<Sidenote>A margin note on desktop, and inline on mobile.</Sidenote>
+
+```python title="example.py"
+print("Add a title to show a filename above the code")
+```
+
+<Callout title="Worth knowing">A highlighted note.</Callout>
+
+<Callout kind="inferred" title="Inferred by model">
+  Use this for anything a model wrote. The dashed outline tells readers it was not measured.
+</Callout>

@@ -1,0 +1,26 @@
+---
+slug: seo-opportunity-explorer
+title: SEO opportunity explorer
+summary: Finds pages that underperform for their position, and separates what was measured from what a model suggested.
+kind: Interactive demo
+topic: Applied AI
+status: Illustrative example with synthetic data
+order: 1
+draft: true
+---
+
+import Band from '../../../components/Band.astro';
+import PipelineFigure from '../../../components/PipelineFigure.astro';
+import OpportunityExplorer from '../../../components/demos/OpportunityExplorer';
+
+<Band>
+  <OpportunityExplorer client:visible />
+</Band>
+
+## How it works
+
+The scoring in this example is plain arithmetic, and you can change the filter or the selected query to see it recalculate. Each query is compared with the median click-through rate at a benchmark position, then the shortfall is converted into estimated missed clicks.
+
+Explanations are the part of this pipeline that would come from a model. Here they were written by hand to show the design, and no model runs in your browser.
+
+<PipelineFigure />

@@ -1,0 +1,41 @@
+---
+import { render } from 'astro:content';
+
+import Row from '../../../components/Row.astro';
+import Base from '../../../layouts/Base.astro';
+import { getProjects, type Project } from '../../../lib/content';
+
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}
+
+const { project } = Astro.props as { project: Project };
+const { title, summary, kind, status, repo } = project.data;
+const { Content } = await render(project);
+---
+
+<Base title={title} description={summary} active="projects">
+  <div class="shell">
+    <Row>
+      <Fragment slot="rail">
+        <p class="ui">{kind}</p>
+        {status && <p class="meta">{status}</p>}
+        {repo && <a class="ui" href={repo}>View source</a>}
+      </Fragment>
+      <h1 class="display">{title}</h1>
+      <p class="lede lede-gap">{summary}</p>
+    </Row>
+    <div class="doc doc-gap"><Content /></div>
+  </div>
+</Base>
+
+<style>
+  .lede-gap {
+    margin-top: 16px;
+  }
+
+  .doc-gap {
+    margin-top: 56px;
+  }
+</style>

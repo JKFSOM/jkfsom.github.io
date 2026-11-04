@@ -1,0 +1,23 @@
+---
+title: bnglatlon-cpp
+summary: British National Grid to WGS84 conversion, rewritten from Python to C++ and benchmarked.
+kind: Open source
+topic: Engineering
+order: 2
+repo: https://github.com/JKFSOM/bnglatlon-cpp
+---
+
+`bnglatlon-cpp` converts coordinates between British National Grid (OSGB36) and latitude and longitude (WGS84). It is a C++ implementation of the Python module [fmalina/blocl-bnglatlon](https://github.com/fmalina/blocl-bnglatlon), packaged as a Python extension.
+
+## Results
+
+Over 100 runs, the C++ version used about 91% less CPU time than the Python version, with almost no change in memory use.
+
+| Item   | CPU time (× 10⁻⁴ seconds) | Memory (MiB) |
+| ------ | ------------------------- | ------------ |
+| Python | 9.27458                   | 20.828125    |
+| C++    | 0.81958                   | 20.812500    |
+
+## Write-up
+
+The full account is in [Rewriting Python Modules in C++, for a Performance Boost](/c++/python/geospatial/2023/10/15/rewriting-bng-lat-lon-in-cpp.html).

@@ -1,0 +1,40 @@
+---
+import ArticleRow from '../components/ArticleRow.astro';
+import ProjectRow from '../components/ProjectRow.astro';
+import Row from '../components/Row.astro';
+import Base from '../layouts/Base.astro';
+import { getArticles, getProjects, site } from '../lib/content';
+
+const articles = await getArticles();
+const projects = await getProjects();
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: site.name,
+  url: Astro.site?.href,
+  description: site.description,
+  inLanguage: 'en-GB',
+};
+---
+
+<Base structuredData={structuredData}>
+  <h1 class="visually-hidden">{site.name}: applied AI, online marketplaces and software</h1>
+
+  <div class="shell page-end spaced">
+    <Row label="Writing">
+      <Fragment slot="rail">
+        <h2 class="heading-1">Writing</h2>
+        <a class="ui" href="/writing/">All writing</a>
+      </Fragment>
+      <div class="ledger">{articles.slice(0, 3).map((article) => <ArticleRow article={article} />)}</div>
+    </Row>
+    <Row label="Projects">
+      <Fragment slot="rail">
+        <h2 class="heading-1">Projects</h2>
+        <a class="ui" href="/projects/">All projects</a>
+      </Fragment>
+      <div class="ledger">{projects.map((project) => <ProjectRow project={project} />)}</div>
+    </Row>
+  </div>
+</Base>

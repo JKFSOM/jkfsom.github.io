@@ -1,0 +1,63 @@
+---
+import Row from '../../components/Row.astro';
+import Base from '../../layouts/Base.astro';
+import { site } from '../../lib/content';
+
+const rows = [
+  {
+    label: 'Work',
+    text: 'I build online marketplaces and applied AI systems, mostly in Python and Go, across backend systems, APIs and infrastructure.',
+  },
+  {
+    label: 'Focus',
+    text: 'On the AI side I work on agents, tool use, orchestration, evaluation and the harnesses that make them dependable in production. On the marketplace side I work on SEO, marketing automation and the product decisions that drive growth.',
+  },
+  {
+    label: 'This site',
+    text: 'This is where I publish what I learn from that work. Anything a model produced is drawn with a dashed line, so it can be told apart from what was measured.',
+  },
+];
+---
+
+<Base
+  title="About"
+  description="Software engineer building online marketplaces and applied AI systems."
+  active="about"
+>
+  <div class="shell page-end spaced--tight">
+    <Row>
+      <Fragment slot="rail" />
+      <h1 class="display">About</h1>
+    </Row>
+    {
+      rows.map((row) => (
+        <Row minor label={row.label}>
+          <h2 slot="rail" class="heading-3">
+            {row.label}
+          </h2>
+          <p class="body">{row.text}</p>
+        </Row>
+      ))
+    }
+    <Row minor label="Elsewhere">
+      <h2 slot="rail" class="heading-3">Elsewhere</h2>
+      <p class="ui"><a href={site.github}>GitHub</a></p>
+      <p class="ui"><a href="/feed.xml">RSS</a></p>
+    </Row>
+  </div>
+</Base>
+
+<style>
+  .body {
+    max-width: 760px;
+    font-size: 20px;
+    line-height: 33px;
+  }
+
+  @media (max-width: 899px) {
+    .body {
+      font-size: 18px;
+      line-height: 29px;
+    }
+  }
+</style>

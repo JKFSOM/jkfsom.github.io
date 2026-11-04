@@ -1,0 +1,43 @@
+---
+import ProjectRow from '../../components/ProjectRow.astro';
+import Row from '../../components/Row.astro';
+import Base from '../../layouts/Base.astro';
+import { getProjects } from '../../lib/content';
+
+const projects = await getProjects();
+const groups = [
+  { title: 'Interactive demos', kind: 'Interactive demo' },
+  { title: 'Open source', kind: 'Open source' },
+].filter((group) => projects.some((project) => project.data.kind === group.kind));
+const description = 'Open-source software and technical projects.';
+---
+
+<Base title="Projects" description={description} active="projects">
+  <div class="shell page-end spaced">
+    <Row>
+      <Fragment slot="rail" />
+      <h1 class="display">Projects</h1>
+      <p class="lede lede-gap">{description}</p>
+    </Row>
+    {
+      groups.map((group) => (
+        <Row label={group.title}>
+          <h2 slot="rail" class="heading-3">
+            {group.title}
+          </h2>
+          <div class="ledger">
+            {projects
+              .filter((project) => project.data.kind === group.kind)
+              .map((project) => <ProjectRow project={project} />)}
+          </div>
+        </Row>
+      ))
+    }
+  </div>
+</Base>
+
+<style>
+  .lede-gap {
+    margin-top: 16px;
+  }
+</style>

@@ -1,0 +1,77 @@
+---
+import '@fontsource-variable/schibsted-grotesk/wght.css';
+import '@fontsource-variable/source-serif-4/opsz.css';
+import '@fontsource-variable/jetbrains-mono/wght.css';
+import '../styles/global.css';
+
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { site } from '../lib/content';
+
+interface Props {
+  title?: string;
+  description?: string;
+  active?: 'writing' | 'projects' | 'about';
+  /** Dark opening band on the homepage. */
+  deepHeader?: boolean;
+  canonical?: string;
+  type?: 'website' | 'article';
+  structuredData?: Record<string, unknown>;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description = site.description,
+  active,
+  deepHeader = false,
+  canonical = Astro.url.pathname,
+  type = 'website',
+  structuredData,
+  noindex = false,
+} = Astro.props;
+
+const pageTitle = title ? `${title} | ${site.name}` : site.name;
+const canonicalUrl = new URL(canonical, Astro.site).href;
+const imageUrl = new URL('/og.png', Astro.site).href;
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title={site.name} href="/feed.xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title ?? site.name} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:locale" content="en_GB" />
+    <meta name="twitter:card" content="summary_large_image" />
+    {
+      structuredData && (
+        <script
+          is:inline
+          type="application/ld+json"
+          set:html={JSON.stringify(structuredData)}
+        />
+      )
+    }
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class:list={{ 'tone-deep': deepHeader }}>
+      <Header active={active} />
+    </div>
+    <main id="main"><slot /></main>
+    <Footer />
+  </body>
+</html>

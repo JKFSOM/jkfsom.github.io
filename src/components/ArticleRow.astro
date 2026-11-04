@@ -1,0 +1,76 @@
+---
+import { articleHref, formatDate, topicColours, type Article } from '../lib/content';
+
+interface Props {
+  article: Article;
+}
+
+const { article } = Astro.props;
+const { title, summary, date, topic } = article.data;
+---
+
+<article>
+  <time class="meta" datetime={date.toISOString().slice(0, 10)}>{formatDate(date)}</time>
+  <div class="text">
+    <h3 class="heading-3"><a href={articleHref(article)}>{title}</a></h3>
+    <p class="note">{summary}</p>
+  </div>
+  <p class="meta topic">
+    <span class="swatch" style={`background:${topicColours[topic]}`}></span>
+    {topic}
+  </p>
+</article>
+
+<style>
+  article {
+    display: grid;
+    grid-template-columns: 130px minmax(0, 1fr) 158px;
+    gap: var(--gutter);
+    padding-block: 20px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  h3 a {
+    text-decoration: none;
+  }
+
+  h3 a:hover {
+    text-decoration: underline;
+    color: inherit;
+  }
+
+  .text {
+    display: grid;
+    gap: 4px;
+  }
+
+  .topic {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    align-self: start;
+    color: var(--ink);
+  }
+
+  .swatch {
+    width: 20px;
+    height: 12px;
+  }
+
+  @media (max-width: 899px) {
+    article {
+      grid-template-columns: 1fr auto;
+      gap: 8px 16px;
+    }
+
+    .text {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+
+    .topic {
+      grid-row: 1;
+      grid-column: 2;
+    }
+  }
+</style>
