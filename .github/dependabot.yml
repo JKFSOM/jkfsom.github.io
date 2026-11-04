@@ -7,6 +7,10 @@ updates:
     # Waiting a week avoids brand-new releases, which carry the most risk.
     cooldown:
       default-days: 7
+    # @astrojs/check 0.9.12 only supports TypeScript 5 and 6. Remove this once it supports 7.
+    ignore:
+      - dependency-name: typescript
+        update-types: ['version-update:semver-major']
     groups:
       npm:
         patterns: ['*']

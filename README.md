@@ -85,4 +85,4 @@ The Pages source must be set to **GitHub Actions** under Settings, Pages. `publi
 
 ## Dependencies
 
-Dependabot opens grouped updates weekly, ignoring releases less than seven days old. When the tests pass, `.github/workflows/dependabot-merge.yml` merges the update and deploys it, including major versions. There is no visual check, so review the site after large updates.
+Dependabot opens grouped updates weekly, ignoring releases less than seven days old. When the tests pass, `.github/workflows/dependabot-merge.yml` merges the update and deploys it, including major versions. There is no visual check, so review the site after large updates. TypeScript major versions are ignored until `@astrojs/check` supports them, so remove that rule from `.github/dependabot.yml` when it does.
