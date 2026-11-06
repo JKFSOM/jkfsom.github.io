@@ -1,0 +1,14 @@
+<script>
+  const rail = document.querySelector('.shell .rail.stack');
+
+  // Injected rather than rendered, so the control never appears without the
+  // script that makes it work.
+  if (rail) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'print-link ui';
+    button.textContent = 'Print';
+    button.addEventListener('click', () => window.print());
+    rail.append(button);
+  }
+</script>

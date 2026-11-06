@@ -3,7 +3,8 @@ import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig } from 'astro/config';
 
-import { codeTheme, codeTitle } from './src/lib/code-theme.mjs';
+import { codeLength, codeTheme, codeTitle } from './src/lib/code-theme.mjs';
+import { rehypeLinkNotes } from './src/lib/rehype-link-notes.mjs';
 import { rehypeSections } from './src/lib/rehype-sections.mjs';
 
 /**
@@ -31,7 +32,7 @@ export default defineConfig({
     }),
   ],
   markdown: {
-    shikiConfig: { theme: codeTheme, transformers: [codeTitle] },
-    rehypePlugins: [rehypeSections],
+    shikiConfig: { theme: codeTheme, transformers: [codeTitle, codeLength] },
+    rehypePlugins: [rehypeSections, rehypeLinkNotes],
   },
 });
