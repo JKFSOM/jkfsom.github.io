@@ -1,0 +1,413 @@
+/*
+ * Printing an article.
+ *
+ * A printed post is for reading through with a pen: loose leading to write
+ * between the lines, a wide right margin for notes, no filled grounds to burn
+ * ink, and a QR back to the live page, which is the only working link on
+ * paper. Outbound links are numbered in the text and listed at the end.
+ */
+
+/* Print-only furniture, kept out of the way on screen. */
+.link-note,
+.doc-links,
+.colophon {
+  display: none;
+}
+
+.print-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text-quiet);
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.print-link:hover {
+  color: var(--text);
+}
+
+@media print {
+  /* Generous right margin: space to write notes beside the text. */
+  @page {
+    margin: 16mm 38mm 18mm 20mm;
+  }
+
+  /* Paper gets no filled grounds at all: structure is carried by hairline
+     rules, so nothing on the page costs ink it does not need to. */
+  :root {
+    --paper: #fff;
+    --surface: #fff;
+    --sunken: transparent;
+    --ink: #000;
+    --graphite: #444;
+    --rule: #bbb;
+    --rule-strong: #888;
+    --inferred: #666;
+    --inferred-tint: transparent;
+    --measured-tint: transparent;
+    --ochre-tint: transparent;
+    /* The dark band inverts to the same white ground as everything else. */
+    --deep: #fff;
+    --on-deep: #000;
+    --on-deep-quiet: #444;
+  }
+
+  html {
+    font-size: 11pt;
+  }
+
+  body {
+    display: block;
+    min-height: 0;
+    background: #fff;
+    /* Loose leading leaves room to write between the lines. */
+    line-height: 1.75;
+  }
+
+  .tone-deep {
+    background: none !important;
+    color: #000 !important;
+  }
+
+  /* Screen chrome has no business on paper. The header sits inside a wrapper
+     div, so it is not a child of body. */
+  .skip-link,
+  header,
+  footer,
+  .copy-code,
+  .print-link,
+  .doc-rules {
+    display: none !important;
+  }
+
+  .shell {
+    max-width: none;
+    padding-inline: 0;
+  }
+
+  /* Collapse every grid to a single column. */
+  .row,
+  .doc,
+  .doc-section {
+    display: block;
+  }
+
+  .row > * {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .doc,
+  .page-end {
+    padding-bottom: 0;
+  }
+
+  .doc > * + * {
+    margin-top: 24pt;
+  }
+
+  .doc-section > * + * {
+    margin-top: 12pt;
+  }
+
+  /* Masthead: title, lede, then the metadata that was in the rail. */
+  .display {
+    font-size: 22pt;
+    line-height: 1.15;
+  }
+
+  .lede {
+    max-width: none;
+    font-size: 13pt;
+    line-height: 1.4;
+  }
+
+  .rail.stack {
+    display: block;
+    margin-top: 10pt;
+    padding-top: 6pt;
+    border-top: 1pt solid var(--ink);
+  }
+
+  /* The layout's scoped rule makes .topic a flex row, which breaks the line. */
+  .rail .topic,
+  .rail .meta {
+    display: inline !important;
+    font-size: 9pt;
+  }
+
+  /* Separators lead each item rather than trailing it, so a hidden last child
+     (the Print button) cannot leave a dangling '·'. */
+  .rail .meta::before {
+    content: ' · ';
+  }
+
+  /* The swatch encodes topic by colour, which says nothing in mono, and the
+     topic name sits right beside it. */
+  .swatch {
+    display: none !important;
+  }
+
+  .head-gap {
+    margin-top: 24pt;
+  }
+
+  .doc-contents ol {
+    padding-left: 22pt;
+  }
+
+  .doc-contents li {
+    padding-left: 2pt;
+  }
+
+  .doc-section {
+    font-size: 11pt;
+    line-height: 1.75;
+  }
+
+  /* Keep headings with the text they introduce. */
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+    break-inside: avoid;
+  }
+
+  .doc-section h2 {
+    font-size: 14pt;
+    line-height: 1.25;
+  }
+
+  .doc-section h3 {
+    font-size: 12pt;
+  }
+
+  .doc-rail {
+    display: block;
+    margin-bottom: 4pt;
+  }
+
+  .doc-number {
+    font-size: 12pt;
+  }
+
+  p,
+  li,
+  blockquote,
+  table,
+  figure {
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* Sidenotes fold inline; the screen rule zeroes their height. */
+  .doc-section > .sidenote {
+    height: auto;
+    margin-top: 12pt;
+    padding-left: 10pt;
+    border-left: 1pt solid var(--rule);
+    font-size: 9.5pt;
+    line-height: 1.5;
+    break-inside: avoid;
+  }
+
+  .callout {
+    padding: 10pt;
+    background: none;
+    border: 1pt solid var(--rule);
+    break-inside: avoid;
+  }
+
+  .callout.inferred {
+    outline: 1pt dashed var(--inferred);
+  }
+
+  /* A full-bleed dark band would otherwise flood whole sheets with ink: its
+     100vmax shadow paints well past the page box. */
+  .band {
+    box-shadow: none !important;
+    clip-path: none !important;
+    margin-inline: 0 !important;
+    padding-block: 12pt !important;
+    border-block: 1pt solid var(--rule);
+  }
+
+  /* The dark code theme is unreadable on paper and burns toner. */
+  pre.astro-code,
+  pre.astro-code span {
+    background: none !important;
+    color: #000 !important;
+  }
+
+  /* A printed page is 794px wide, so the mobile breakpoint matches and bleeds
+     code blocks past the left edge. Undo its negative margins. */
+  .doc-section > pre,
+  .doc-section > .code {
+    margin-inline: 0;
+  }
+
+  pre.astro-code {
+    padding: 8pt;
+    border: 1pt solid var(--rule);
+    font-size: 8.5pt;
+    line-height: 1.45;
+    /* Wrap rather than clip: a printed page cannot scroll sideways. */
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    /* Redraw the border on each fragment, so a listing that spans pages is a
+       complete box on every one rather than two open-ended rules. Safe only
+       because the line numbers below run on, which is what tells the reader a
+       capped fragment is still mid-listing. */
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
+  /* No orphans/widows here. They have no effect on the pre, whose only child
+     is now a block, and on the code they can push every line to the next page
+     while the pre's own frame and title have already begun on this one,
+     printing an empty titled box. A short stub is the lesser fault. */
+
+  /* Short enough to fit, so keep it whole. Set by the code-length transformer:
+     applying this to a longer listing moves it to a fresh sheet and splits it
+     anyway, wasting most of the page before. */
+  pre.astro-code[data-short] {
+    break-inside: avoid;
+  }
+
+  /* Numbered lines. They carry across a page break, which is what orients a
+     reader on a continuation page, and they give an annotator something to
+     point at. The gutter is padding on the code, with the markers pulled back
+     into it, so a wrapped line aligns to the code rather than the numbers. */
+  pre.astro-code code {
+    display: block;
+    padding-left: 3em;
+    counter-reset: code-line;
+  }
+
+  pre.astro-code .line::before {
+    content: counter(code-line);
+    counter-increment: code-line;
+    display: inline-block;
+    width: 2.2em;
+    margin-left: -3em;
+    margin-right: 0.8em;
+    color: var(--graphite);
+    text-align: right;
+  }
+
+  /* Shiki leaves a trailing empty line, which should not earn a number. */
+  pre.astro-code .line:last-child:empty::before {
+    content: none;
+  }
+
+  pre.astro-code[data-title]::before {
+    position: static;
+    margin: -8pt -8pt 8pt;
+    padding: 4pt 8pt;
+    background: none !important;
+    border-bottom: 1pt solid var(--rule);
+    color: var(--graphite);
+    font-size: 8.5pt;
+  }
+
+  /* Inline code is told apart by the mono face alone, with no fill. */
+  .doc-section :not(pre) > code {
+    padding: 0;
+    background: none;
+  }
+
+  .doc-section > blockquote {
+    border-left: 1pt dashed var(--inferred);
+  }
+
+  .doc-section > table {
+    font-size: 9pt;
+    break-inside: avoid;
+  }
+
+  img,
+  svg,
+  figure {
+    max-width: 100%;
+    break-inside: avoid;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  /* Destinations are numbered here and spelled out in the list below, so the
+     prose keeps its rhythm. */
+  .link-note {
+    display: inline;
+    font-size: 7.5pt;
+    line-height: 0;
+    vertical-align: super;
+  }
+
+  .link-note::before {
+    content: '[';
+  }
+
+  .link-note::after {
+    content: ']';
+  }
+
+  .doc-links {
+    display: block;
+    margin-top: 24pt;
+    padding-top: 8pt;
+    border-top: 1pt solid var(--rule);
+    break-inside: avoid;
+  }
+
+  .doc-links h2 {
+    font-size: 10pt;
+  }
+
+  .doc-links ol {
+    margin-top: 6pt;
+    padding-left: 20pt;
+    font-size: 8.5pt;
+    line-height: 1.5;
+  }
+
+  .doc-links li {
+    overflow-wrap: anywhere;
+  }
+
+  /* The only working link on paper. */
+  .colophon {
+    display: flex;
+    gap: 12pt;
+    align-items: center;
+    margin-top: 24pt;
+    padding-top: 10pt;
+    border-top: 1pt solid var(--ink);
+    break-inside: avoid;
+  }
+
+  .colophon .qr {
+    flex: none;
+    width: 22mm;
+  }
+
+  .colophon .qr svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .colophon-text {
+    font: 400 9pt/1.5 var(--font-sans);
+    color: var(--graphite);
+  }
+
+  .colophon-url {
+    color: var(--ink);
+    overflow-wrap: anywhere;
+  }
+}

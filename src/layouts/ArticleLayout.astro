@@ -1,7 +1,10 @@
 ---
 import { render } from 'astro:content';
 
+import qrcode from 'qrcode-generator';
+
 import CopyCode from '../components/CopyCode.astro';
+import PrintArticle from '../components/PrintArticle.astro';
 import Row from '../components/Row.astro';
 import {
   articleHref,
@@ -22,6 +25,16 @@ const { title, summary, date, updated, topic } = article.data;
 const { Content } = await render(article);
 const href = articleHref(article);
 const hasCode = article.body?.includes('```');
+const articleUrl = new URL(href, Astro.site).href;
+
+/**
+ * A printed sheet has no link to follow, so it carries its own way back.
+ * Built here rather than fetched, so the markup stays self-contained.
+ */
+const qr = qrcode(0, 'M');
+qr.addData(articleUrl);
+qr.make();
+const qrSvg = qr.createSvgTag({ cellSize: 4, margin: 0, scalable: true });
 
 const structuredData = {
   '@context': 'https://schema.org',
@@ -59,7 +72,15 @@ const structuredData = {
       <p class="lede head-lede">{summary}</p>
     </Row>
     <article class="doc head-gap"><Content /></article>
+    <aside class="colophon" aria-hidden="true">
+      <div class="qr" set:html={qrSvg} />
+      <p class="colophon-text">
+        Read this online, with working links:<br />
+        <span class="colophon-url">{articleUrl}</span>
+      </p>
+    </aside>
   </div>
+  <PrintArticle />
   {hasCode && <CopyCode />}
 </Base>
 
