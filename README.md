@@ -48,6 +48,26 @@ Drafts appear in `npm run dev` and are left out of production builds. `npm test`
 
 Keep any draft containing an interactive demo in a `drafts/` folder, such as `src/content/projects/drafts/`, and give it a `slug` in its frontmatter. Astro bundles demos from every content file it loads, and production builds skip these folders.
 
+## Quote something
+
+A plain Markdown `>` quote or `<blockquote>` gets the default style, with its dashed bar meaning a model wrote it. Use `Quote` to add a label, and to quote anything a model did not write:
+
+```mdx
+import Quote from '../../components/Quote.astro';
+import QuotePair from '../../components/QuotePair.astro';
+
+<Quote label="Model output, German" lang="de">Default style.</Quote>
+
+<Quote emphasis label="Model output, German" lang="de">The one passage a reader must not miss.</Quote>
+
+<Quote kind="source" label="Author, Title, 2026">Solid bar: a named source, on its own.</Quote>
+
+<QuotePair>
+  <Quote kind="source" label="Report, English">The original.</Quote>
+  <Quote label="Model output, German" lang="de" note="Why this is wrong.">Mark an <mark>error</mark> in place.</Quote>
+</QuotePair>
+```
+
 ## Add an interactive demo
 
 Create a React component in `src/components/demos/`, then import it in an MDX file:

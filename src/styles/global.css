@@ -357,6 +357,67 @@ a:hover {
   margin-top: 0;
 }
 
+/* Quotes. A dashed plum bar marks anything a model wrote; a solid bar marks a named source. */
+.doc-section > blockquote,
+.quote {
+  margin-inline: 0;
+  margin-bottom: 0;
+  padding-left: 16px;
+  border-left: 1.5px dashed var(--inferred);
+  font: 400 17px/27px var(--font-sans);
+}
+
+.quote blockquote {
+  margin: 0;
+}
+
+.doc-section > blockquote > p + p,
+.quote blockquote > p + p {
+  margin-top: 12px;
+}
+
+.quote-label {
+  margin-bottom: 8px;
+  color: var(--inferred);
+  font: 500 14px/20px var(--font-sans);
+}
+
+.quote-note {
+  margin-top: 8px;
+  color: var(--graphite);
+  font: 400 14px/20px var(--font-sans);
+}
+
+.quote mark {
+  background: none;
+  color: var(--inferred);
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+}
+
+.quote--emphasis {
+  padding: 16px 20px;
+  background: var(--inferred-tint);
+  font: 400 18px/29px var(--font-serif);
+}
+
+.quote--source {
+  border-left: 1.5px solid var(--rule-strong);
+}
+
+.quote--source .quote-label {
+  color: var(--graphite);
+}
+
+.quote-pair {
+  display: grid;
+  gap: 16px;
+}
+
+.quote-pair > .quote {
+  margin-top: 0;
+}
+
 .code {
   position: relative;
 }
@@ -458,6 +519,17 @@ pre.astro-code[data-title]::before {
   .doc-number {
     font-size: 27px;
     line-height: 35px;
+  }
+
+  .doc-section > blockquote,
+  .quote {
+    font-size: 16px;
+    line-height: 25px;
+  }
+
+  .quote--emphasis {
+    font-size: 17px;
+    line-height: 27px;
   }
 
   .doc-section > pre,

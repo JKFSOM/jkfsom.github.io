@@ -9,6 +9,8 @@ draft: true # Remove when ready to publish
 {/* Copy this file to src/content/writing/your-slug.mdx. Delete the lines you do not need. */}
 
 import Callout from '../../components/Callout.astro';
+import Quote from '../../components/Quote.astro';
+import QuotePair from '../../components/QuotePair.astro';
 import Sidenote from '../../components/Sidenote.astro';
 
 Your introduction goes here, before the first heading.
@@ -28,3 +30,16 @@ print("Add a title to show a filename above the code")
 <Callout kind="inferred" title="Inferred by model">
   Use this for anything a model wrote. The dashed outline tells readers it was not measured.
 </Callout>
+
+<Quote label="Model output, German" lang="de">Use this for anything a model wrote.</Quote>
+
+<Quote emphasis label="Model output, German" lang="de">Use this for the one passage a reader must not miss.</Quote>
+
+<Quote kind="source" label="Author, Title, 2026">Use this to quote a named source.</Quote>
+
+<QuotePair>
+  <Quote kind="source" label="Report, English">The original text.</Quote>
+  <Quote label="Model output, German" lang="de" note="Say what went wrong.">
+    The model's version, with an <mark>error</mark> marked in place.
+  </Quote>
+</QuotePair>
