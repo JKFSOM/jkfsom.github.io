@@ -1,0 +1,22 @@
+---
+/**
+ * Labelled quote for MDX. The bar says where the words came from: dashed plum
+ * for anything a model wrote, solid for a named source. Wrap a source and a
+ * model quote in QuotePair to compare them, and mark errors with <mark>.
+ */
+interface Props {
+  label?: string;
+  kind?: 'model' | 'source';
+  emphasis?: boolean;
+  note?: string;
+  lang?: string;
+}
+
+const { label, kind = 'model', emphasis = false, note, lang } = Astro.props;
+---
+
+<figure class:list={['quote', { 'quote--source': kind === 'source', 'quote--emphasis': emphasis }]}>
+  {label && <figcaption class="quote-label">{label}</figcaption>}
+  <blockquote lang={lang}><slot /></blockquote>
+  {note && <p class="quote-note">{note}</p>}
+</figure>

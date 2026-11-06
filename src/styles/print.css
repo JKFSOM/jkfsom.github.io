@@ -319,8 +319,28 @@
     background: none;
   }
 
-  .doc-section > blockquote {
+  .doc-section > blockquote,
+  .quote {
     border-left: 1pt dashed var(--inferred);
+    font-size: 10pt;
+    line-height: 1.5;
+    break-inside: avoid;
+  }
+
+  .quote-label,
+  .quote-note {
+    font-size: 8.5pt;
+    line-height: 1.4;
+  }
+
+  /* Paper has no filled grounds, so emphasis keeps only its serif setting. */
+  .quote--emphasis {
+    padding: 0 0 0 16px;
+    background: none;
+  }
+
+  .quote--source {
+    border-left: 1pt solid var(--rule);
   }
 
   .doc-section > table {
