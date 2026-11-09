@@ -1,0 +1,38 @@
+---
+/**
+ * Supporting material kept out of the main thread: collapsed by default, opened
+ * by readers who want it. Paper has no toggle, so it prints open (see below).
+ */
+interface Props {
+  summary: string;
+  /** Soft-wrap long lines: right for prose such as a prompt, wrong for code. */
+  wrap?: boolean;
+}
+
+const { summary, wrap = false } = Astro.props;
+---
+
+<details class:list={['disclosure', wrap && 'disclosure-wrap']}>
+  <summary>{summary}</summary>
+  <div class="disclosure-body"><slot /></div>
+</details>
+
+<script>
+  // Every disclosure opens for printing, then returns to however the reader
+  // left it, so nothing is silently missing from the printed sheet.
+  const opened = new Set<HTMLDetailsElement>();
+
+  addEventListener('beforeprint', () => {
+    for (const details of document.querySelectorAll<HTMLDetailsElement>('details.disclosure')) {
+      if (!details.open) {
+        details.open = true;
+        opened.add(details);
+      }
+    }
+  });
+
+  addEventListener('afterprint', () => {
+    for (const details of opened) details.open = false;
+    opened.clear();
+  });
+</script>

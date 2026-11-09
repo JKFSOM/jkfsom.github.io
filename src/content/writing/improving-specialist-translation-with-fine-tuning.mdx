@@ -1,0 +1,216 @@
+---
+title: Improving Specialist Translation with Fine-Tuning
+summary: How much can industry-specific terminology and fine-tuning improve machine translation?
+date: 2026-11-08
+topic: Applied AI
+draft: false
+---
+
+import Disclosure from '../../components/Disclosure.astro';
+import Sidenote from '../../components/Sidenote.astro';
+import TerminologyStyleFigure from '../../components/TerminologyStyleFigure.astro';
+
+Translation has been possible for a long time; Google Translate was launched in 2006, but systems such as SYSTRAN were available in the 1960s. Naturally, the techniques used for translation have changed over time, and with them accuracy. However, even in the age of LLMs, translations can trip up on esoteric terms found in industries ranging from healthcare to commodity trading.
+
+## Why is specialist translation difficult?
+
+Whilst modern translation models consider the context of surrounding words, they can still struggle with terms that have specialised meanings within particular industries.
+
+For example, in everyday English, the word _lift_ typically means to physically raise something. However, in physical commodity trading, _lifting a cargo_ refers to taking delivery of a shipment. A translation model unfamiliar with this terminology might translate the phrase literally, producing a grammatically correct but technically inaccurate result. 
+
+<Sidenote>
+  Parallel data (translations), rather than subject knowledge are the issue. 
+
+  Fixture recaps, confirmations and contracts are private documents, and where bilingual versions exist at all they sit in a counterparty's filing system rather than somewhere accessible to models in training.
+</Sidenote>
+
+Translation models can also struggle with idioms and register. For example, in English we say _it's raining cats and dogs_, whereas the French say _it's raining ropes_. Whilst this is a well-known example, some models still struggle to give a good translation of the English phrase (outputting _chiens_ and _chats_). Similar cases in niche industries can be much more pronounced.
+
+Higher-cost models are often better at recognising these nuances, owing to their increased awareness (although only to a degree - it's not a fix). However, translation work of this kind tends to be high volume, and at a per-token price the overall cost rises quickly at scale (e.g. a year's worth of contracts and market reports).
+
+Cost is not the only constraint. Contracts and confirmations are frequently confidential, and sending them to a third party may not be permitted. That can limit the choice of models to those small enough to run on commodity hardware - which are the models that struggle most with this material.
+
+## How can industry knowledge help?
+
+The industry standard way of improving translations is to supply a glossary - a mapping from a word/phrase in one language to another. These are created by hand (an LLM can be used to produce a first draft) by someone familiar with industry terminology. Ultimately, they're transferring their understanding to the model.
+
+When building a glossary, we're most concerned with common terms that a model would otherwise render as something plausible but wrong, rather than rare industry-exclusive terms.
+
+Most of a glossary is aimed at leaving a word intact rather than translating it - which is a different job to what a translation model is trained to do. If you were translating commodity trading text from English to French, your glossary might include the following terms:
+
+| English     | French  | Why a general model might get it wrong                                                                                               |
+| ------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Lift (a cargo)      | Enlèvement      | Taken literally as *lever*, so the cargo is raised rather than collected.                                                       |
+| Clean products      | Produits blancs | Rendered *produits propres*, which is fluent French and the wrong category: the trade splits cargoes into *blancs* and *noirs*. |
+| Bunkers             | Soutes          | Carried straight over as *bunkers*, which in French is a shelter or a golf hazard rather than a ship's fuel.                    |
+| Demurrage           | Surestaries     | Paraphrased as *frais de stationnement*, which suits a lorry in a yard rather than a vessel held beyond laytime.                |
+| FOB (Free on Board) | FOB             | Expanded to *franco à bord*, when the Incoterm code is contractual and has to survive untouched.                                |
+
+When a glossary is supplied to a trained model (included in a prompt), it will use the mapping to improve its outputs. Whilst supplying a glossary can help with translating certain phrases, it has little effect on the tone and style of the output (the meaning might be relatively accurate, but the form/structure a poor match to the input).
+
+Using Mistral's 12B parameter NeMo model (described as a ['Multilingual Model for the Masses'](https://mistral.ai/news/mistral-nemo/)), we can test the effectiveness of supplying a glossary. Only words/phrases present in the content being translated were included in the glossary.
+
+<Sidenote>
+Aho-Corasick was used to identify which terms should be included in the glossary.
+</Sidenote>
+
+| Metric                            | Without glossary | With glossary | Change |
+| --------------------------------- | ---------------- | ------------- | ------ |
+| Glossary terms rendered correctly | 148/330 (44.8%)              | 277/330 (83.9%)           | +129 (39.1%)    |
+| Phrases with no terminology error | 66/197 (33.5%)              | 150/197 (76.1%)           | +84 (42.6%)    |
+| chrF++                            | 61.86              | 64.27           | +2.41    |
+| Numeric/currency/unit fidelity | 209/224 (93.3%) | 208/224 (92.9%) | No change | 
+
+<Disclosure summary="The prompts used" wrap>
+
+Both runs use the same model, decoding settings and source text. The glossary run adds three instructions and the glossary block; nothing else differs.
+
+```text title="Without glossary"
+You are a professional translator. You are especially familiar with specialised commodity trading and shipping knowledge, and terms relating to tanker chartering, physical oil, LNG and gas, as well as general everyday terms. Translate the following English source text into French.
+- Do not include anything but translation result only.
+- The translation result must be written in a single line. There must be no newline character at the end.
+```
+
+```text title="With glossary"
+You are a professional translator. You are especially familiar with specialised commodity trading and shipping knowledge, and terms relating to tanker chartering, physical oil, LNG and gas, as well as general everyday terms. Translate the following English source text into French.
+- Refer to the word pairs in the glossary when you translate.
+- Do not translate the glossary itself.
+- Do not include anything but translation result only.
+- If a term in the glossary has multiple possilbe translations (separated by '|', choose the most appropriate one).
+- The translation result must be written in a single line. There must be no newline character at the end.
+
+GLOSSARY:
+{glossary}
+```
+
+</Disclosure>
+
+Clearly a glossary is incredibly helpful, but can we do better?
+
+## Can we teach a model to follow specialist terminology?
+
+Although using a glossary made a notable improvement to outputs, can we improve the output even further? Taking inspiration from [Efficient Terminology Integration from LLM-based Translation in Specialized Domains](https://arxiv.org/abs/2410.15690) by Kim _et al._ and fine-tuning NeMo.
+
+A dataset was created (with assistance from an LLM - this is a PoC rather than something that will be used in production). The dataset was then split into a training and validation set (1276:224).
+
+The dataset consisted of 1,500 synthetic English–French translation pairs generated with LLM assistance, covering terminology and scenarios from commodity trading and shipping. These were divided into 1,276 training examples and 224 held-out examples for evaluation. The reference translations were independently generated. We also distinguished between glossary terms encountered during training and previously unseen terms, to assess whether improvements extended beyond memorised vocabulary. As both the training and evaluation material were synthetic, the results measure performance against generated reference translations rather than independently validated industry documents.
+
+Fine-tuning was done using LoRA with MLX on an M1 MacBook Pro (32GB), against a 4-bit quantised copy of the model - so that the 12B model and its training state fit could fit in memory. The output was assessed using chrF++, a blind A/B test, and a numeric fidelity check (to ensure values and currencies weren't altered).
+
+<Sidenote>
+The blind A/B test is a side-by-side comparison where the model used is only known after judging.
+
+chrF++ answers "does this resemble my reference text" whereas the blind A/B test checks whether the output is actually good French. Judging was done by Claude rather than a French speaker.
+</Sidenote>
+
+We trained a total of nine models. The parameters we settled on are shared here:
+
+### Lora adapter settings
+| Setting | Value |
+| ------- | ----- |
+| Layers adapted | 32 (of 40) |
+| Alpha | 8 |
+| Rank | 8 |
+| Dropout | 0.1 |
+| Learning rate | 1 × 10<sup>−4</sup> |
+| Optimiser | AdamW |
+| Epochs | 1 |
+| Batch size | 4 |
+
+Only the learning rate, rank, epoch count and layer coverage were actually varied across the nine runs. Alpha, dropout, optimiser and batch size were not changed.
+
+<Disclosure summary="Training findings" wrap>
+- Doubling the learning rate from 1 × 10<sup>−4</sup> (the best found) to 2 × 10<sup>−4</sup> had no effect - flat. 1 × 10<sup>−5</sup> was clearly worse.
+- Increasing the adapter rank from 8 to 16 had no discernible effect (within the noise margin), at either 4 or 16 adapted layers.
+- Increasing the epochs from 1 led to overfitting. chrF++ barely moved, while two independent checks both turned against us: the gap between seen and unseen terminology, and training loss falling below validation loss. The model got better at vocabulary it had already seen, and no better overall.
+
+| | 1 epoch | 5 epochs |
+| - | - | - |
+| chrF++ | 72.13 | 72.70 |
+| Glossary accuracy | 88.5% | 87.0% |
+| Seen-vs-unseen gap | −0.67 | +1.71 |
+| Training loss vs validation | +0.107 | −0.356 |
+
+</Disclosure>
+
+<Disclosure summary="Structure of instruction-based training dataset" wrap>
+
+```json
+{
+  "prompt": [
+    {
+      "role": "system",
+      "content": "You are a professional translator. You are especially familiar with specialised commodity trading and shipping knowledge, and terms relating to tanker chartering, physical oil, LNG and gas, as well as general everyday terms. Translate the following English source text into French.\n        - Refer to the word pairs in the glossary when you translate.\n        - Do not translate the glossary itself.\n        - Do not include anything but translation result only.\n        - If a term in the glossary has multiple possilbe translations (separated by '|', choose the most appropriate one).\n        - The translation result must be written in a single line. There must be no newline character at the end.\n\n        GLOSSARY:\nPanamax : navire panamax\nlaytime : délai de staries | staries\n"
+    },
+    {
+      "role": "user",
+      "content": "The Panamax waited 62 hours while receivers disputed cargo quality; laytime ran throughout."
+    }
+  ],
+  "completion": [
+    {
+      "role": "assistant",
+      "content": "Le navire panamax a attendu 62 heures pendant que les réceptionnaires contestaient la qualité de la cargaison ; le délai de staries a couru sans interruption."
+    }
+  ]
+}
+```
+</Disclosure>
+
+## Is fine-tuning actually worthwhile?
+
+Our evaluation, run against 224 held-out records, finds that the fine-tuned model consistently gave better results than the base model when translating commodity and shipping reports from English to French.
+
+Because our reference translations were synthetically generated, these improvements may partly reflect the model learning the conventions of the generated dataset rather than those of authentic industry documents.
+
+We also tested it on eight sources written by hand in registers the training data never contained - a charterparty clause, a trader's chat message, market commentary and an operational notice. It performed well there too, and neither model corrupted a figure.
+
+Of note is our fidelity score of 94.2% - the same figure the reference translations themselves score. The model is sitting at the ceiling of its data rather than merely passing, and isn't trading arithmetic accuracy for fluency.
+
+Our blind preference assessment shows a notable improvement. The base model made mistakes, including dropping 'USD 5/bbl' from a hedging sentence, losing an entire condition from a contract clause, and turning an 'October' shutdown into 'November'. In some cases, "Buyer", "Cargo", "Tanker" and "facility" were left untranslated. The tuned model's slips were grammatical ones that did not alter meaning. 
+
+| | base | fine-tuned |
+| - | - | - |
+| chrF++ | 64.16 | 78.37 |
+| Glossary terms correct | 83.3% | 89.7% |
+| Numbers, currencies, units intact | 93.3% | 94.2% |
+| Blind preference | 5/40 | 35/40 |
+
+There's also a clear improvement compared to using a base model supplied with a glossary:
+
+| Metric | Base, no glossary | Base + glossary | Fine-tuned | Change vs base + glossary |
+| --- | --- | --- | --- | --- |
+| Glossary terms rendered correctly | 148/330 (44.8%) | 277/330 (83.9%) | **296/330 (89.7%)** | +19 terms (+5.8pp) |
+| Phrases with no terminology error | 66/197 (33.5%) | 150/197 (76.1%) | **165/197 (83.8%)** | +15 phrases (+7.7pp) |
+| chrF++ | 61.86 | 64.27 | **78.37** | +14.10 |
+| Numeric/currency/unit fidelity | 209/224 (93.3%) | 208/224 (92.9%) | **211/224 (94.2%)** | +3 (+1.3pp) |
+
+<TerminologyStyleFigure />
+
+The glossary accounts for most of the improvement in terminology accuracy, taking it from 44.8% to 83.9%. Fine-tuning adds another 5.8 percentage points. However, the difference in chrF++ is much more pronounced: just 2.41 points from supplying the glossary, compared with 14.10 from fine-tuning.
+
+This suggests that the fine-tuned model is learning something beyond individual terminology mappings. One plausible explanation is that it has adapted to the phrasing, sentence structures and conventions present in the training data. However, chrF++ measures similarity to reference translations, not writing style directly, so we cannot isolate these effects from the results alone.
+
+The distinction is useful nonetheless: a glossary provides explicit guidance about which words to use, while fine-tuning offers a way to adapt the model's broader translation behaviour. The two approaches appear complementary rather than interchangeable.
+
+<Sidenote>
+A glossary tells the model *which words* to use, and fine-tuning teaches it *how the documents are written* - the sentence shapes, the register, the house conventions. They are not alternatives.
+</Sidenote>
+
+## The Limits of Off-the-Shelf AI
+
+The results suggest that specialist translation is possible with relatively small models, but some adaptation is needed. Without it, a model may produce fluent French whilst making mistakes that would be obvious to someone familiar with the industry. This is particularly problematic when the translation appears correct to someone without the relevant subject knowledge. Our experiment suggests that glossaries and fine-tuning can address different aspects of this problem.
+
+A glossary provides the model with explicit terminology, improving its ability to recognise and translate words with specialist meanings. In our case, supplying a glossary increased terminology accuracy from 44.8% to 83.9%, without requiring any changes to the model itself. Creating a glossary is also relatively straightforward, although the terminology still needs to be reviewed by someone familiar with the industry.
+
+Fine-tuning appears to offer something different. By training on examples of specialist documents, the model can potentially learn how terminology is used in context, including the phrasing, sentence structures and conventions found in that material. Whilst our experiment did not measure improvements in style or register independently, the substantial increase in chrF++ suggests that the model learned more than simply how to translate individual terms.
+
+The two approaches therefore appear complementary. A glossary is an effective way of improving terminology accuracy, whilst fine-tuning can help the model adapt its broader translation behaviour.
+
+Another interesting finding is that fine-tuning a model of this size does not necessarily require expensive hardware. We trained a quantised 12B parameter model on an M1 MacBook Pro with 32GB of memory, with training taking a little over an hour. Training and inference were performed locally, although we used an external model for evaluation. For organisations handling confidential documents, the ability to run the translation model without sending material to a hosted API could be particularly valuable.
+
+However, there are some important limitations to our findings. The training data was synthetically generated using an LLM, rather than taken from authentic industry documents. The improvements are therefore measured against generated reference translations, which may not reflect the terminology and writing conventions preferred by professionals working in the industry. Before deploying a model of this kind, its outputs would need to be evaluated by someone familiar with both the language and the subject matter.
+
+This is where much of the practical difficulty lies. Fine-tuning has become very accessible, but obtaining a sufficiently large collection of high-quality, bilingual industry documents is considerably harder. In many specialist industries, documents are confidential, translations are not routinely produced, and the terminology itself may vary between organisations.
+
+Ultimately, the experiment demonstrates that a relatively small model can be adapted to perform substantially better on a specialised translation task. Whether those improvements translate into reliable, production-quality translations will depend largely on the quality of the training and evaluation material. 
