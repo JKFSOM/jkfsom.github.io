@@ -254,9 +254,13 @@
     border: 1pt solid var(--rule);
     font-size: 8.5pt;
     line-height: 1.45;
-    /* Wrap rather than clip: a printed page cannot scroll sideways. */
+    /* Wrap rather than clip: a printed page cannot scroll sideways. The
+       screen's scroll container goes with it - the text now wraps, so it has
+       nothing left to scroll, and an overflow box can cost a fragment its
+       right-hand border. */
     white-space: pre-wrap;
     overflow-wrap: break-word;
+    overflow: visible;
     /* Redraw the border on each fragment, so a listing that spans pages is a
        complete box on every one rather than two open-ended rules. Safe only
        because the line numbers below run on, which is what tells the reader a

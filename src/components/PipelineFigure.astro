@@ -138,4 +138,31 @@ const MAX_ROWS = Math.max(...steps.map((step) => step.rows));
       color: var(--inferred);
     }
   }
+
+  /* A browser leaves backgrounds out of a printed page unless the reader asks
+     for them, so a filled block prints as nothing at all - which on paper left
+     the dashed inferred step as the only one anybody could see. Outlines are
+     foreground and always print, and they cost the sheet no ink: the trade the
+     inferred step was already making. */
+  @media print {
+    .block,
+    li::after {
+      background: none;
+      outline: 1pt solid var(--ink);
+      outline-offset: -1pt;
+      color: var(--ink);
+    }
+
+    /* Colour says nothing in mono, so the last step takes a heavier stroke. */
+    .final .block,
+    .final::after {
+      outline-width: 2.5pt;
+    }
+
+    .inferred .block,
+    .inferred::after {
+      outline: 1pt dashed var(--inferred);
+      color: var(--inferred);
+    }
+  }
 </style>
