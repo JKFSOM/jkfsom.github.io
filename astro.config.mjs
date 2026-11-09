@@ -6,6 +6,7 @@ import { defineConfig } from 'astro/config';
 import { codeLength, codeTheme, codeTitle } from './src/lib/code-theme.mjs';
 import { rehypeLinkNotes } from './src/lib/rehype-link-notes.mjs';
 import { rehypeSections } from './src/lib/rehype-sections.mjs';
+import { rehypeTableScroll } from './src/lib/rehype-table-scroll.mjs';
 
 /**
  * The sitemap integration drops `.html` and trailing slashes under the
@@ -33,6 +34,6 @@ export default defineConfig({
   ],
   markdown: {
     shikiConfig: { theme: codeTheme, transformers: [codeTitle, codeLength] },
-    rehypePlugins: [rehypeSections, rehypeLinkNotes],
+    rehypePlugins: [rehypeTableScroll, rehypeSections, rehypeLinkNotes],
   },
 });

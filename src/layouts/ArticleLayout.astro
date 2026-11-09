@@ -6,6 +6,7 @@ import qrcode from 'qrcode-generator';
 import CopyCode from '../components/CopyCode.astro';
 import PrintArticle from '../components/PrintArticle.astro';
 import Row from '../components/Row.astro';
+import TableScroll from '../components/TableScroll.astro';
 import {
   articleHref,
   author,
@@ -25,6 +26,8 @@ const { title, summary, date, updated, topic } = article.data;
 const { Content } = await render(article);
 const href = articleHref(article);
 const hasCode = article.body?.includes('```');
+/** Markdown tables are the only ones an article writes, and every row opens a line. */
+const hasTable = /^\s*\|/m.test(article.body ?? '');
 const articleUrl = new URL(href, Astro.site).href;
 
 /**
@@ -82,6 +85,7 @@ const structuredData = {
   </div>
   <PrintArticle />
   {hasCode && <CopyCode />}
+  {hasTable && <TableScroll />}
 </Base>
 
 <style>
