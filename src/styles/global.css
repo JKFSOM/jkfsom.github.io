@@ -328,21 +328,34 @@ a:hover {
   padding-left: 18px;
 }
 
-.doc-section > table {
+/* A table is never narrower than its columns need, so a wide one would push
+   the whole page sideways on a phone and leave the reader dragging the article
+   about to read a paragraph. The wrapper rehypeTableScroll puts around every
+   table keeps that scrolling inside the measure, where it belongs. */
+.table-scroll {
+  overflow-x: auto;
+}
+
+/* Scrolling it is a keyboard action, so it takes the same ring as a link. */
+.table-scroll:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+
+.table-scroll > table {
   width: 100%;
   border-collapse: collapse;
   font: 400 14px/20px var(--font-sans);
   font-variant-numeric: tabular-nums;
 }
 
-.doc-section > table th {
+.table-scroll th {
   color: var(--graphite);
   font-weight: 400;
   text-align: left;
 }
 
-.doc-section > table th,
-.doc-section > table td {
+.table-scroll :is(th, td) {
   padding: 10px 12px 10px 0;
   border-bottom: 1px solid var(--rule);
 }

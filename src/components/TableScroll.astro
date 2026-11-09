@@ -1,0 +1,35 @@
+---
+/**
+ * A table that scrolls has to be reachable by keyboard, so rehypeTableScroll
+ * ships every wrapper focusable and named: that is the state that holds up
+ * with no JavaScript at all. Most tables fit the measure, though, and a focus
+ * stop on something that cannot move is noise - so once a browser can measure
+ * them, the ones that fit hand the marking back.
+ */
+---
+
+<script>
+  const mark = (wrap: HTMLElement) => {
+    if (wrap.scrollWidth > wrap.clientWidth) {
+      wrap.setAttribute('tabindex', '0');
+      wrap.setAttribute('role', 'region');
+    } else {
+      wrap.removeAttribute('tabindex');
+      wrap.removeAttribute('role');
+    }
+  };
+
+  /* The wrapper's own box changes with the window; the table's changes when a
+     web font lands and resets the column widths. Either can tip the balance. */
+  const observer = new ResizeObserver((entries) => {
+    for (const entry of entries) {
+      const wrap = entry.target.closest<HTMLElement>('.table-scroll');
+      if (wrap) mark(wrap);
+    }
+  });
+
+  for (const wrap of document.querySelectorAll<HTMLElement>('.table-scroll')) {
+    observer.observe(wrap);
+    if (wrap.firstElementChild) observer.observe(wrap.firstElementChild);
+  }
+</script>

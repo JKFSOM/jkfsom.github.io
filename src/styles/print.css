@@ -347,7 +347,13 @@
     border-left: 1pt solid var(--rule);
   }
 
-  .doc-section > table {
+  /* Paper cannot scroll, so the wrapper stops being a scroll box and lets a
+     wide table print in full rather than clipped to the measure. */
+  .table-scroll {
+    overflow: visible;
+  }
+
+  .table-scroll > table {
     font-size: 9pt;
     break-inside: avoid;
   }
