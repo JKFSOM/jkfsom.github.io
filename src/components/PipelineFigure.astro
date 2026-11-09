@@ -139,30 +139,34 @@ const MAX_ROWS = Math.max(...steps.map((step) => step.rows));
     }
   }
 
-  /* A browser leaves backgrounds out of a printed page unless the reader asks
-     for them, so a filled block prints as nothing at all - which on paper left
-     the dashed inferred step as the only one anybody could see. Outlines are
-     foreground and always print, and they cost the sheet no ink: the trade the
-     inferred step was already making. */
+  /* A browser leaves backgrounds out of a printed page unless the reader ticks
+     'Background graphics', which is off by default and absent altogether from
+     the macOS print dialog - so a block drawn as a fill prints as nothing at
+     all, which left the dashed inferred step as the only one on the sheet.
+     print-color-adjust tells the browser this fill carries meaning rather than
+     decoration, which is what gets it onto paper either way. Greys rather than
+     the screen's colours: these print on mono lasers, where a hue says nothing
+     and the step that ends the run needs to read darkest. */
   @media print {
-    .block,
+    /* A printed page is narrower than the breakpoint above, so the bar on
+       paper is always the pseudo-element, never the block. */
     li::after {
-      background: none;
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+      background: #6b6b6b;
       outline: 1pt solid var(--ink);
       outline-offset: -1pt;
-      color: var(--ink);
     }
 
-    /* Colour says nothing in mono, so the last step takes a heavier stroke. */
-    .final .block,
     .final::after {
-      outline-width: 2.5pt;
+      background: var(--ink);
     }
 
-    .inferred .block,
+    /* The model's step stays hollow, as it is on screen: the caption sends the
+       reader to the dashed block, so it has to stay the odd one out. */
     .inferred::after {
+      background: none;
       outline: 1pt dashed var(--inferred);
-      color: var(--inferred);
     }
   }
 </style>

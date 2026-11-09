@@ -127,23 +127,25 @@ const format = (value: number) => value.toFixed(1).replace(/\.0$/, '');
     }
   }
 
-  /* A browser leaves backgrounds out of a printed page unless the reader asks
-     for them, so a filled bar prints as nothing at all and the chart loses the
-     very thing it measures. Outlines are foreground and always print, and a
-     hollow bar costs the sheet no ink - the trade the rest of the print
-     stylesheet makes everywhere else. Colour says nothing in mono either, so
-     the step that did the work is marked by a heavier stroke, matching the
-     bold value beside it. */
+  /* A browser leaves backgrounds out of a printed page unless the reader ticks
+     'Background graphics', which is off by default and absent altogether from
+     the macOS print dialog - so a bar drawn as a fill prints as nothing at all.
+     print-color-adjust tells the browser this fill carries meaning rather than
+     decoration, which is the one thing that gets it onto paper either way. The
+     bars are the chart's only content, so this is ink the sheet should spend.
+     Greys rather than the screen's colours: these print on mono lasers, where
+     a hue says nothing and the step that did the work needs to read darkest. */
   @media print {
     .bar {
-      background: none;
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+      background: #6b6b6b;
       outline: 1pt solid var(--ink);
       outline-offset: -1pt;
     }
 
     .carried .bar {
-      background: none;
-      outline-width: 2.5pt;
+      background: var(--ink);
     }
   }
 </style>
