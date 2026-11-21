@@ -1,0 +1,137 @@
+---
+title: The Four Levels of Agentic Commerce
+summary: As we become more dependent on AI agents, we're delegating more and more. The next frontier is agentic commerce.
+date: 2026-11-21
+topic: Applied AI
+draft: false
+---
+
+{/* Scaffold only. Delete the imports you do not use, and these comments, before publishing. */}
+
+import Callout from "../../components/Callout.astro";
+import Disclosure from "../../components/Disclosure.astro";
+import Quote from "../../components/Quote.astro";
+import QuotePair from "../../components/QuotePair.astro";
+import Sidenote from "../../components/Sidenote.astro";
+
+Around 1900 BCE, merchants were conducting transactions over thousands of miles via letter and credit. In the 16th century, Venetians began a rudimentary catalogue shopping service, selling books across Europe. By the 19th, recognisable home shopping was thriving. Over the past thirty years, we've seen the rollout of online purchases and payments, the transition to mobile payment systems (e.g. Apple Pay), crypto, and more. The next meaningful jump will be to agentic commerce, of which there are four broad tiers:
+
+<Sidenote>
+'Silver and Credit in Old Assyrian Trade' in [Law and Trade in Ancient Mesopotamia and Anatolia](https://www.sidestone.com/openaccess/9789088909153.pdf?utm_source=chatgpt.com) contains an extract from a letter by the trader Šalimaḫum.
+</Sidenote>
+
+| Level                   | Role of AI                                             | Example                                                         | Human Involvement                       |
+| ----------------------- | ------------------------------------------------------ | --------------------------------------------------------------- | --------------------------------------- |
+| 1. Discovery            | Researches and recommends products                     | "Find the best electric whisk under £25"                         | Selects and purchases                   |
+| 2. Assisted purchasing  | Facilitates a transaction                              | Purchase an iPhone via an AI assistant                          | Approves the purchase                   |
+| 3. Conditional autonomy | Monitors and purchases within predefined limits        | "Buy Clarks desert boots (tan; UK 12) when they fall below £40" | Sets conditions in advance              |
+| 4. Orchestration        | Plans and coordinates complex, multi-step transactions | "Arrange travel to my parents in Austin, TX, on the weekend of Nov. 21st. Preference for daytime travel."                          | Sets objectives and approves exceptions |
+
+
+## What is agentic commerce?
+
+Agentic commerce is the use of AI agents to discover, research, evaluate, and purchase good or services on behalf of a consumer. Rather than just recommending items (like Google Shopping), agents consider pricing, specification, reputability, and - given sufficient authorisation - will negotiate and complete purchases.
+
+The range in an agent's abilities is broad. In the most simple case, an agent recommends a product matching your brief (utilising any user-specific context it has available) and directs you to a retailer to complete the purchase. At the other end of the scale, agents are able to monitor prices, make purchases within agreed limits, and coordinate transactions across multiple businesses. Where a user lands depends on how much purchasing power they delegate to the agent.
+
+## Level 1: Discovery
+
+The simplest form of agentic commerce doesn't place an order or negotiate prices. Instead, agents research options, compare competing products, and recommend retailers - all while considering the user's requirements in conjunction with pre-existing user context.
+
+Whilst "Discovery" sounds tame in the context of agentic commerce, it represents a massive leap in capability compared to what existed before. Larger retailers and marketplaces already hold considerable amounts of customer and product information, but their recommendations are generally limited to their own catalogues and what they know about your shopping habits. By contrast, AI agents can compare products across multiple retailers and consider far more specific requirements - particularly for complex purchases.
+
+At this level, consumers can evaluate more options with substantially less effort than before.
+
+Although an agent didn't handle the transaction, it influenced the decision.
+
+## Level 2: Assisted purchasing
+
+At Level 2, the agent not only recommends products but helps complete the purchase itself. Having been recommended an item (or shortlist), the user can instruct the agent to proceed with the purchase.
+
+Rather than having to navigate the retailer's site and complete the checkout process manually, the agent handles much of the transaction on their behalf. This could include confirming availability, providing delivery details, and arranging payment. Crucially, the user remains control of the final purchase decision - they must explicitly confirm it.
+
+Whilst this may appear as an incremental improvement from Level 1, it removes much of the friction between finding and buying a product; an order could be received and fulfilled by a retailer without the customer ever visiting their website.
+
+## Level 3: Conditional autonomy
+
+The distinction between Level 3 and Level 2 is important. An agent operating at Level 2 can execute a transaction on the user's behalf, but each purchase still requires explicit approval. At Level 3, the user **authorises the conditions under which a future purchase can take place**, allowing the agent to act independently once those conditions are met.
+
+Imagine you're looking for a pair of navy Clarks desert boots in UK size 12, but aren't willing to pay more than £65 including postage and packaging. Rather than regularly checking retailers for discounts, you could instruct your agent to monitor prices and discount codes, and instruct it to buy a pair as soon as a suitable offer appears. The agent could work in the background for days or weeks, completing the transaction without requiring any further input.
+
+At Level 3, trust becomes particularly important. How does a retailer know that an agent has been authorised to make a purchase, and how can the user be confident that the agent won't exceed its instructions?
+
+Protocols such as Google's Agent Payments Protocol (AP2) aim to address these concerns through cryptographically signed mandates, which provide verifiable evidence of what a user has authorised an agent to do. These mandates can define constraints around spending limits, product requirements, and other purchase conditions - allowing participating merchants and payment providers to verify that a transaction falls within the agent's authority.
+
+At this level, the user remains responsible for setting boundaries, but no longer needs to pick which specific item/offering to order or to complete the purchase flow themselves.
+
+## Level 4: Orchestration
+
+At Level 4, agents move beyond individual purchases and begin coordinating multiple transactions to achieve a broader objective. Rather than providing detailed instructions for each purchases, the user can describe what they want to accomplish and leave the agent to determine how best to achieve it.
+
+For example, you might tell your agent "my partner and I want to spend three nights in New York over New Year, departing on 30 December. Arrange our flights, accommodation, and transport to and from the airports. Our budget is £1,500 per person."
+
+The agent could research flights, find suitable accommodation, arrange airport transfers, and ensure that everything fits within your budget. It could draw on existing knowledge of your preferences, such as preferred airlines and accommodation standards - all without needing you to specify every detail. Providing you've granted sufficient authority, it could then make the bookings on your behalf.
+
+<Sidenote>
+Although the underlying technologies are developing rapidly, reliably coordinating complex, interdependent purchases with minimal human intervention is not yet widely available (November 2026).
+</Sidenote>
+
+Complexity of the task is what makes this fundamentally different from Level 3 - the purchases are interdependent. Accommodation needs to align with flight times, airport transfers have to account for arrival and departure schedules, and the total cost needs to remain within budget. If a flight becomes unavailable or a hotel increases its prices, the agent may need to reconsider several decisions rather than simply abandon a purchase.
+
+At this level, the agent isn't just executing transactions within predefined conditions. It's making a series of connected decisions, adapting to changing circumstances, and coordinating with multiple businesses to deliver an outcome. The user defines the objective and the boundaries, and the agent determines how to achieve it.
+
+## What exists today?
+
+**Level 1 is already widely available** and has been for some time. ChatGPT, Google's Gemini, and Amazon's Alexa for Shopping can research products, compare alternatives and recommend retailers. Whilst the quality of these recommendations varies, consumers can already use AI to assist with much of the discovery process.
+
+**Level 2 is available, but underutilised.** OpenAI first introduced in-chat purchasing through Instant Checkout in September 2025, before abandoning the approach in March 2026 in favour of directing customers to merchants' own checkouts.
+
+Google's Universal Cart, launched in the US in October 2026, allows consumers to collect products from multiple retailers and complete purchases using Google Pay. Perplexity also offers in-platform purchasing through Instant Buy. More recently, OpenAI introduced ChatGPT Wallet, allowing eligible US subscribers to authorise purchases made by their AI agents. Each transaction still requires the user's approval.
+
+**Level 3 is beginning to emerge.** Amazon's Alexa for Shopping already supports an Auto-Buy feature, allowing customers to specify a target price for a product and have it purchased automatically when that price is reached. Whilst this is considerably more constrained than giving a general-purpose agent permission to shop across the internet, it demonstrates that conditional purchasing is already commercially available.
+
+<Sidenote>
+Alongside shopping for physical goods, we're also seeing the emergence of machine-to-machine payments, where agents can independently purchase digital services to assist them. In November 2026, Brave introduced support for the x402 payment protocol through its Search API, allowing agents to pay for individual search requests using cryptocurrency, without needing an account or subscription. Although this is distinct from the four levels of consumer purchasing described here, it demonstrates how software is increasingly able transact with other services without human intervention.
+</Sidenote>
+
+**Level 4 remains largely aspirational.** AI agents are increasingly capable of coordinating tasks across multiple services, and specialist travel platforms are beginning to introduce more sophisticated booking capabilities. However, reliably planning and executing complex, interdependent purchases across different businesses, without regular human intervention, is not yet widely available.
+
+It's clear that agentic commerce capabilities are still evolving, albeit incrementally. Some purchases are straightforward to automate, whilst others involve financial, practical or personal considerations that make human involvement desirable.
+
+## What's holding us back?
+Whilst the technology behind agentic commerce is developing rapidly, it alone won't determine how quickly consumers adopt it. Trust, security and the willingness to delegate purchasing decisions are just as - if not more - important.
+
+According to research published by Boston Consulting Group (BCG) in October 2026, just 4% of consumers would allow an AI agent to complete a purchase autonomously. Although, consumers are increasingly using AI to research products.
+
+To aid adoption, a few key issues need to be settled: what happens if an agent purchases the wrong product, misinterprets its instructions or buys from an unreliable retailer? Who is responsible when something goes wrong, and how are refunds and disputes handled? 
+
+For an agent to excel at shopping on a consumer's behalf, it must understand their preferences, which may require sharing sensitive information. Unlike Amazon (who have a lot of data from browsing and buying habits), explicitly sharing preferences with an agent could be less palatable. Consumers will need to be comfortable sharing enough information for an agent to do a good job.
+
+There are also practical obstacles. Retailers need systems capable of communicating with agents, providing accurate pricing and availability, and processing transactions securely. Although several protocols and services have emerged to support this (including from Stripe), the infrastructure remains fragmented and adoption is still developing.
+
+Finally, not every purchase needs to be automated. Many people enjoy shopping, particularly when buying expensive or personal items, and may prefer to remain involved in the decision-making process.
+
+The adoption of agentic commerce is unlikely to progress uniformly through the four levels. Consumers might allow an agent to reorder household essentials whilst insisting on personally approving a new car or an expensive holiday. The question isn't entirely what agents will be _capable_ of doing, but what we'll be comfortable _allowing_ them to do.
+
+## What does this mean for commerce?
+
+The implications for retailers could be substantial, even if most consumers never progress beyond Level 1 (unlikely). As more purchasing decisions are influenced by AI, businesses will find themselves competing for an agent's recommendation rather than a customer's attention.
+
+Traditionally, retailers have invested heavily in attracting visitors to their websites and optimising the journey from discovery to checkout. In a world where agents handle much of that process, consumers might never visit a retailer's website at all. Instead, agents could evaluate competing products based on price, suitability, availability, customer reviews, and the reliability of the seller.
+
+This could be particularly disruptive to businesses that depend on advertising or repeat website visits to acquire customers. It also raises questions about who controls the relationship with the consumer. If an AI assistant becomes the primary interface through which someone shops, the retailer risks becoming little more than a supplier of goods.
+
+However, that doesn't necessarily mean the end of traditional retail. Brand reputation, exclusive products, customer service and reliable fulfilment may become even more important to businesses when agents can compare competing offers so easily. Some consumers will also continue to value the experience of shopping for themselves.
+
+The competitive advantage may gradually shift from businesses that are best at attracting attention to those that are adept at meeting a customer's requirements, whether that customer is shopping directly or through an agent.
+
+
+## How Much Should We Delegate to AI?
+
+It's easy to think of the four levels as a natural progression, with fully autonomous agents representing the eventual destination. However, greater autonomy isn't necessarily better for every purchase.
+
+Most consumers will move between the levels depending on what they're buying. Allowing an agent to reorder household essentials or purchase a familiar product at a discounted price is one thing; trusting it to choose a car, organise a wedding or make a significant financial commitment is another.
+
+As the technology matures, the distinction between what agents _can_ do and what we're comfortable letting them do will become increasingly important. The ability to set clear boundaries, understand an agent's decisions and intervene when necessary may prove just as valuable as the ability to automate a transaction.
+
+Ultimately, the future of agentic commerce isn't one in which consumers hand over every purchasing decision. It's one in which we can choose how involved we want to be, leaving the mundane decisions to our agents whilst retaining control over those that matter to us.
