@@ -1,6 +1,6 @@
 ---
 title: Rewriting Python Modules in C++, for a Performance Boost
-summary: Translating a coordinate conversion package to C++ cut CPU time by about 91% with no change in memory use.
+summary: Translating a coordinate conversion function to C++ cut elapsed time by about 92% in a local benchmark.
 date: 2023-10-15
 updated: 2026-11-04
 topic: Engineering
@@ -9,25 +9,24 @@ legacyPath: /c++/python/geospatial/2023/10/15/rewriting-bng-lat-lon-in-cpp.html
 
 High-performance applications are often written in a lower-level language, such as C++ or Rust, rather than Python. The appeal of lower-level languages lies in the finer control they give over system resources, which can unlock a significant boost in performance.
 
-With a foundational understanding of C++, from past work on microcontroller programming in C, I wanted to try moving a basic Python package to C++. As an Earth Science graduate working in software engineering, it seemed fitting to work on something geospatial. In previous projects I've used [fmalina/blocl-bnglatlon](https://github.com/fmalina/blocl-bnglatlon), which converts British National Grid (OSGB36) to latitude and longitude (WGS84). Whilst efficient, I suspected I could improve its performance by rewriting it in C++.
+With a foundational understanding of C++, from past work on microcontroller programming in C, I wanted to try moving a Python function to C++. As an Earth Science graduate working in software engineering, it seemed fitting to work on something geospatial. In previous projects I've used [fmalina/blocl-bnglatlon](https://github.com/fmalina/blocl-bnglatlon), which includes a function that converts British National Grid (OSGB36) eastings and northings in metres to approximate latitude and longitude (WGS84). Whilst efficient, I suspected I could improve its performance by rewriting it in C++.
 
 Aside from using constants, not much has been altered in the code. It is largely a straightforward translation to C++. The code is available [on GitHub](https://github.com/JKFSOM/bnglatlon-cpp).
 
 ## Results
 
-The following results were gathered over 100 runs.
+The original benchmark used latitude and longitude where the function expected grid metres. I reran it on four valid grid points and both versions returned the same coordinates to six decimal places. The results below show the best of five batches of 40,000 conversions, divided by the number of conversions per batch. I used CPython 3.12 on macOS (arm64), `bng_latlon` 1.1 without Numba, and Apple Clang 17 with `-O3`.
 
-| Item       | CPU time (× 10⁻⁴ seconds) | Memory (MiB) |
-| ---------- | ------------------------- | ------------ |
-| Python     | 9.27458                   | 20.828125    |
-| C++        | 0.81958                   | 20.812500    |
-| Difference | 8.455                     | ~0           |
+| Item       | Elapsed time per conversion (µs) |
+| ---------- | -------------------------------- |
+| Python     | 8.54                             |
+| C++        | 0.71                             |
+| Difference | 7.83                             |
 
-- **Duration:** processing in C++ took about 91% less CPU time. That is a large gain for code that runs repeatedly.
-- **Memory:** memory use was nearly identical between Python and C++, as expected.
+- **Duration** fell by about 92% in this benchmark.
 
 ## Conclusion
 
-This exercise was a useful lesson in the performance gains available from moving a small, CPU-bound module out of Python. The reduction in processing time shows how much language choice can matter in performance-critical code.
+This exercise was a useful lesson in the performance gains available from moving a small, CPU-bound function out of Python. The reduction in processing time shows how much language choice can matter in performance-critical code.
 
-The result applies to this kind of tight numerical work. If a similar module is a measured bottleneck in your application, a direct translation to a lower-level language like C++ is worth considering.
+The result applies to this kind of tight numerical work. If a similar function is a measured bottleneck in your application, a direct translation to a lower-level language like C++ is worth considering.
