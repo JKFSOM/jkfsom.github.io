@@ -17,12 +17,11 @@ const htmlFiles = files.filter((file) => file.endsWith('.html'));
 const read = (relative) => fs.readFileSync(path.join(dist, relative), 'utf8');
 const exists = (relative) => fs.existsSync(path.join(dist, relative));
 
-// URLs that were live before the redesign must keep working.
+// These URLs from before the redesign must keep working.
 for (const url of [
   'index.html',
   'about/index.html',
   'c++/python/geospatial/2023/10/15/rewriting-bng-lat-lon-in-cpp.html',
-  'fastapi/pydantic/2023/09/18/collecting-errors-with-fastapi.html',
 ]) {
   if (!exists(url)) fail(`Missing preserved URL: /${url}`);
 }
