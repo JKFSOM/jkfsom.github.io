@@ -1,0 +1,39 @@
+---
+/**
+ * Captioned screenshot for MDX. Import the image so Astro can optimise it:
+ * `import home from '../../assets/projects/example/home.jpg';`
+ */
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  caption?: string;
+}
+
+const { src, alt, caption } = Astro.props;
+---
+
+<figure class="screenshot">
+  <Image src={src} alt={alt} widths={[686, src.width]} sizes="(min-width: 960px) 686px, 100vw" />
+  {caption && <figcaption class="meta">{caption}</figcaption>}
+</figure>
+
+<style>
+  .screenshot {
+    margin-inline: 0;
+    margin-bottom: 0;
+  }
+
+  .screenshot img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--rule);
+  }
+
+  figcaption {
+    margin-top: 8px;
+  }
+</style>

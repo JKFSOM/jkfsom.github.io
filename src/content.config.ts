@@ -30,13 +30,15 @@ const projects = defineCollection({
   schema: z.object({
     title: z.string(),
     summary: z.string(),
-    kind: z.enum(['Interactive demo', 'Open source']),
+    kind: z.enum(['Product', 'Interactive demo', 'Open source']),
     topic: z.enum(topics),
     status: z.string().optional(),
     order: z.number().default(100),
     draft: z.boolean().default(false),
     /** Source code link, shown in the rail of the project page. */
     repo: z.string().url().optional(),
+    /** Public website for a product, shown in the rail of the project page. */
+    website: z.string().url().optional(),
     /** Main language of the repository, for structured data. */
     language: z.string().optional(),
   }),
