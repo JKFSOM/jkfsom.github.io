@@ -1,6 +1,6 @@
 ---
 title: Cavora
-summary: An agentic commerce compatibility checker that shows whether AI agents can find, understand and buy from an online store.
+summary: A free agentic commerce readiness assessment for online stores, requested through the website or over MCP.
 kind: Product
 topic: Applied AI
 order: 1
@@ -8,21 +8,20 @@ draft: true
 website: https://www.gocavora.com/
 ---
 
-[Cavora](https://www.gocavora.com/) is an agentic commerce compatibility checker for online stores. It assesses how ready a site is for AI shopping agents, from being found to completing a purchase.
+[Cavora](https://www.gocavora.com/) checks whether AI shopping agents can find a store's products, read accurate prices and stock, and buy through an advertised agent checkout. Users can request an agentic commerce assessment of their site through the website or over MCP.
 
-## What it checks
+## What the assessment covers
 
-Search engines are no longer the only way shoppers find products. AI assistants now answer questions, compare products and, more and more, buy on the shopper's behalf. Cavora looks at both:
+The scan groups its checks into finding, understanding and buying:
 
-- **SEO:** whether search engines and AI crawlers can reach and index the store.
-- **AEO (answer engine optimisation):** whether AI assistants can read accurate product information and recommend the store.
-- **Agentic checkout:** whether an agent can get from a product to a completed purchase.
+- **Agent access:** robots rules, Content Signals, HTTP 402 paywalls and simulated agent requests.
+- **Findable products:** sitemaps, categories and AI search.
+- **Product facts:** price, stock, identifiers, offers and ratings in the page markup.
+- **Price and stock match:** whether agents see the same price and stock as shoppers.
+- **Basket route:** whether an agent can build a basket from a link and reach the cart.
+- **Agent checkout:** whether UCP or ACP checkout is advertised and valid.
 
-Each finding links to the evidence behind it, and the report ends with prioritised fixes.
-
-## How to request an assessment
-
-Users can request an agentic commerce assessment of their site through [the Cavora website](https://www.gocavora.com/), or over MCP from their own AI assistant.
+Scoring uses fixed rules rather than a model, and every finding links to its evidence. Anything the scan cannot see, such as private feeds or contract pricing, is marked as not verified rather than guessed.
 
 ## Further reading
 
