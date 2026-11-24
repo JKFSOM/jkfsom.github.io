@@ -8,7 +8,18 @@ draft: true
 website: https://www.gocavora.com/
 ---
 
+import Screenshot from '../../components/Screenshot.astro';
+import home from '../../assets/projects/cavora/home.jpg';
+import checks from '../../assets/projects/cavora/checks.jpg';
+import receipt from '../../assets/projects/cavora/receipt.jpg';
+
 [Cavora](https://www.gocavora.com/) checks whether AI shopping agents can find a store's products, read accurate prices and stock, and buy through an advertised agent checkout. Users can request an agentic commerce assessment of their site through the website or over MCP.
+
+<Screenshot
+  src={home}
+  alt="Cavora homepage, headed 'Can AI agents shop your store?', with a form to scan a store's web address."
+  caption="The Cavora homepage, where a store owner enters their web address to request a scan."
+/>
 
 ## What the assessment covers
 
@@ -21,8 +32,16 @@ The scan groups its checks into finding, understanding and buying:
 - **Basket route:** whether an agent can build a basket from a link and reach the cart.
 - **Agent checkout:** whether UCP or ACP checkout is advertised and valid.
 
+<Screenshot
+  src={checks}
+  alt="Six check cards: agent access, findable products, product facts, price and stock match, basket route and agent checkout."
+  caption="The six checks, each shown with an illustrative sample result."
+/>
+
 Scoring uses fixed rules rather than a model, and every finding links to its evidence. Anything the scan cannot see, such as private feeds or contract pricing, is marked as not verified rather than guessed.
 
-## Further reading
-
-[The Four Levels of Agentic Commerce](/writing/four-levels-of-agentic-commerce/) explains the ideas behind the checks.
+<Screenshot
+  src={receipt}
+  alt="A receipt listing what the report includes, such as prioritised opportunities and fixes, and what it does not, such as ChatGPT rankings."
+  caption="What the report includes, and what it deliberately leaves out."
+/>
