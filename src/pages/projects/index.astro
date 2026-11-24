@@ -6,6 +6,7 @@ import { getProjects } from '../../lib/content';
 
 const projects = await getProjects();
 const groups = [
+  { title: 'Products', kind: 'Product' },
   { title: 'Interactive demos', kind: 'Interactive demo' },
   { title: 'Open source', kind: 'Open source' },
 ].filter((group) => projects.some((project) => project.data.kind === group.kind));
